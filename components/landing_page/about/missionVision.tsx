@@ -1,12 +1,12 @@
-import { BracketText } from './BracketText';
-import missionImage from '../../../../assets/images/about-mission.png';
+import { BracketText } from './bracketText';
+import missionImage from '@/public/images/about-mission.png';
 
 export const MissionVision = () => {
     return (
         <section className="py-16 md:py-24 bg-gray-50">
             <div className="w-full h-48 md:h-64 overflow-hidden mb-12">
                 <img
-                    src={missionImage}
+                    src={missionImage.src}
                     alt="School supplies flatlay"
                     className="w-full h-full object-cover opacity-90"
                 />

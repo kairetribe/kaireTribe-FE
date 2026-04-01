@@ -1,5 +1,5 @@
-import { BracketText } from './BracketText';
-import problemImage from '../../../../assets/images/about-problem.png';
+import { BracketText } from './bracketText';
+import problemImage from '@/public/images/about-problem.png';
 
 export const TheProblem = () => {
     return (
@@ -9,7 +9,7 @@ export const TheProblem = () => {
                     <div className="order-2 lg:order-1">
                         <div className="aspect-square w-full max-w-md mx-auto rounded-3xl overflow-hidden shadow-2xl relative">
                             <img
-                                src={problemImage}
+                                src={problemImage.src}
                                 alt="Stressed student"
                                 className="w-full h-full object-cover"
                             />

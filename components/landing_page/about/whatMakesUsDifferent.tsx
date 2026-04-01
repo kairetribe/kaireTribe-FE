@@ -1,5 +1,5 @@
-import { BracketText } from './BracketText';
-import differentImage from '../../../../assets/images/about-different.png';
+import { BracketText } from './bracketText';
+import differentImage from '@/public/images/about-different.png';
 
 export const WhatMakesUsDifferent = () => {
     return (
@@ -9,7 +9,7 @@ export const WhatMakesUsDifferent = () => {
                     <div>
                         <div className="aspect-[4/5] rounded-2xl overflow-hidden shadow-lg transform -rotate-2 hover:rotate-0 transition-transform duration-300">
                             <img
-                                src={differentImage}
+                                src={differentImage.src}
                                 alt="Happy student with green folder"
                                 className="w-full h-full object-cover"
                             />

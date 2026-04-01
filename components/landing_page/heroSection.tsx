@@ -29,7 +29,7 @@ export const HeroSection = () => {
     <section
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      className="relative bg-gray-900 h-[600px] overflow-hidden"
+      className="relative bg-gray-900 h-[80vh] overflow-hidden"
     >
       {/* ── Background image with parallax ── */}
       <div className="absolute inset-0">

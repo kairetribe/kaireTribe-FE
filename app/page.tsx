@@ -4,9 +4,9 @@ import { HeroSection } from "@/components/landing_page/heroSection";
 import { HowItWorksSection } from "@/components/landing_page/howItWorksSection";
 import { FeatureSection } from "@/components/landing_page/featureSection";
 import { ScholarsHighlightSection } from "@/components/landing_page/scholarsHighlightSection";
-import { CtaSection } from "@/components/landing_page/ctaSection";
 import { LandingHeader } from "@/components/landing_page/header";
 import Footer from "@/components/landing_page/footer";
+import { CTA } from "@/components/landing_page/CTA";
 
 export default function LandingPage() {
     return (
@@ -61,7 +61,7 @@ export default function LandingPage() {
 
                 <ScholarsHighlightSection />
 
-                <CtaSection />
+                <CTA />
             </main>
 
             <Footer />

@@ -1,5 +1,5 @@
-import { BracketText } from './BracketText';
-import heroImage from '../../../../assets/images/about-hero.png';
+import { BracketText } from './bracketText';
+import heroImage from '@/public/images/about-hero.png';
 
 export const AboutHero = () => {
     return (
@@ -20,7 +20,7 @@ export const AboutHero = () => {
                     <div className="relative">
                         <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-xl">
                             <img
-                                src={heroImage}
+                                src={heroImage.src}
                                 alt="Students graduating"
                                 className="w-full h-full object-cover"
                             />
