@@ -1,31 +1,5 @@
 "use client";
 
-/**
- * @file components/layout/AdminLayout.tsx
- * @description Sidebar layout shell for all admin dashboard pages (/admin/*).
- *
- * Migration changes from Vite:
- *   - `Outlet`       → `children` prop (Next.js App Router pattern)
- *   - `useLocation`  → `usePathname` from next/navigation
- *   - `Link to={}`   → `Link href={}` from next/link
- *   - `import { Link } from 'react-router-dom'` → `import Link from 'next/link'`
- *
- * Professionalism improvements:
- *   - Duplicated nav link JSX (mobile + desktop) extracted into a shared
- *     `NavLink` component — single source of truth for link styles
- *   - Mobile sidebar was using an inline img + span logo; standardized
- *     to use the shared `<Logo />` component for consistency
- *   - All import paths updated to use the `@/` alias
- *
- * @note The "Announcements" nav item links to `/admin/announcement` (singular).
- *       This is intentional to preserve the existing route. If the route slug
- *       is ever corrected to `/admin/announcements` (plural), update both this
- *       file and app/admin/announcement/ at the same time.
- *
- * @see app/admin/layout.tsx   — mounts this layout for the /admin/* subtree
- * @see context/adminDataContext.tsx — data provider mounted alongside this layout
- */
-
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
