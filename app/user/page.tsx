@@ -1,7 +1,7 @@
 import Link from "next/link";
 import bannerImage from "@/public/images/dashboard/banner-3d.png"
 import posterImage from "@/public/images/dashboard/scholarship-poster.png";
-import ScholarshipCard from "@/components/scholarshipCard";
+import ScholarshipCard from "@/components/user/scholarshipCard";
 
 const MOCK_SCHOLARSHIPS = [
     {
@@ -56,7 +56,7 @@ export default function DashboardHome() {
                         There are over 10 trending<br />scholarships that fits your profile.
                     </h2>
                     <Link
-                     href="/user/scholarships"
+                        href="/user/scholarships"
                         className="inline-block bg-white text-[#4361EE] px-8 py-3 rounded-full font-bold hover:bg-gray-100 transition-colors shadow-lg"
                     >
                         Apply now!

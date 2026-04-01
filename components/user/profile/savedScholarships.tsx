@@ -1,0 +1,41 @@
+import { Search } from 'lucide-react';
+import posterImage from "@/public/images/dashboard/scholarship-poster.png";
+import ScholarshipCard from '../scholarshipCard';
+
+const MOCK_SAVED = Array(9).fill({
+    id: "mock-1",
+    title: "XYZ Scholarship",
+    description: "Lorem ipsum itsa dolor Lorem ipsum itsa dolor Lorem ipsum itsa dolorLorem ipsum itsa dolor...",
+    image: posterImage,
+    type: "Full Scholarship",
+    isFull: true
+}).map((item, idx) => ({
+    ...item,
+    id: `mock-${idx}`,
+    type: idx % 2 === 0 ? "Full Scholarship" : "Partial Scholarship",
+    isFull: idx % 2 === 0
+}));
+
+export const SavedScholarships = () => {
+    return (
+        <div className="space-y-6">
+            <div className="flex justify-end">
+                <div className="relative w-full md:w-80">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <Search className="h-5 w-5 text-gray-400" />
+                    </div>
+                    <input
+                        type="text"
+                        placeholder="Search"
+                        className="block w-full pl-10 pr-3 py-2.5 border border-indigo-100 rounded-full leading-5 bg-white placeholder-gray-400 focus:outline-none focus:placeholder-gray-300 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-700 shadow-sm"
+                    />
+                </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {MOCK_SAVED.map((scholarship) => (
+                    <ScholarshipCard key={scholarship.id} data={scholarship} />
+                ))}
+            </div>
+        </div>
+    );
+};

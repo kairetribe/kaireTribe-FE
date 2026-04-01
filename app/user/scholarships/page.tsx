@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Search, Filter, X } from "lucide-react";
 import posterImage from "@/public/images/dashboard/scholarship-poster.png";
-import ScholarshipCard from "@/components/scholarshipCard";
+import ScholarshipCard from "@/components/user/scholarshipCard";
 
 const MOCK_SCHOLARSHIPS = Array(9).fill({
     id: "mock-1",
