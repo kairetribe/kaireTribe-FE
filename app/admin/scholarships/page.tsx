@@ -1,6 +1,6 @@
 import { ScholarshipActionBar } from "@/components/admin/scholarships/scholarshipActionBar";
 import { ScholarshipList } from "@/components/admin/scholarships/scholarshipList";
-import { ScholarshipPagination } from "@/components/admin/scholarships/scholarshipPagination";
+import { ScholarshipPagination } from "@/components/admin/pagination";
 
 export default function AdminScholarships() {
     return (
