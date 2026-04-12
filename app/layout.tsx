@@ -14,6 +14,11 @@ export const metadata: Metadata = {
   description:
     "Over 1,000 active Nigerian undergraduate and graduate scholarships. " +
     "Get matched and apply in minutes.",
+  icons: {
+    icon: "/logo.svg",
+    shortcut: "/logo.svg",
+    apple: "/logo.svg",
+  },
 };
 
 interface RootLayoutProps {
