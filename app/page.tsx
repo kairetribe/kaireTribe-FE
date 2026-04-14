@@ -4,14 +4,12 @@ import { HeroSection } from "@/components/landing_page/home/hero";
 import { HowItWorksSection } from "@/components/landing_page/howItWorksSection";
 import { FeatureSection } from "@/components/landing_page/featureSection";
 import { ScholarsHighlightSection } from "@/components/landing_page/scholarsHighlightSection";
-import { LandingHeader } from "@/components/landing_page/header";
 import Footer from "@/components/landing_page/footer";
 import { CTA } from "@/components/landing_page/CTA";
 
 export default function LandingPage() {
     return (
-        <div className="min-h-screen bg-white font-sans text-gray-900">
-            <LandingHeader />
+        <div className="min-h-screen bg-white font-sans">
             <main>
                 <HeroSection />
                 <HowItWorksSection />

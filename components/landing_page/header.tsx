@@ -13,18 +13,34 @@ const NAV_LINKS = [
   { label: "FAQ",      href: "/faq"   },
 ] as const;
 
-export const LandingHeader = () => {
+interface LandingHeaderProps {
+  /** Pass true only on pages that have a full-screen hero image so nav text
+   *  starts white and transitions to dark after the user scrolls past 100vh. */
+  heroMode?: boolean;
+}
+
+export const LandingHeader = ({ heroMode = false }: LandingHeaderProps) => {
   const pathname = usePathname();
 
   const [isMenuOpen, setIsMenuOpen]   = useState(false);
   const [scrolled, setScrolled]       = useState(false);
+  const [pastHero, setPastHero]       = useState(false);
   const [hoveredLink, setHoveredLink] = useState<string | null>(null);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const threshold = heroMode ? window.innerHeight : 20;
+    const onScroll = () => {
+      const past = window.scrollY >= threshold;
+      setScrolled(past);
+      if (heroMode) setPastHero(past);
+    };
+    onScroll(); // sync on mount
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [heroMode]);
+
+  // True while the header sits over the hero image and should use light colours
+  const isLight = heroMode && !pastHero;
 
   useEffect(() => {
     setIsMenuOpen(false);
@@ -39,9 +55,9 @@ export const LandingHeader = () => {
         initial={{ y: -80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        className={`fixed top-0 left-0 right-0 z-20 transition-all duration-500 ${
           scrolled
-            ? "bg-white/10 backdrop-blur-sm shadow-[0_2px_20px_rgba(0,0,0,0.08)]"
+            ? "bg-white/20 backdrop-blur-lg shadow-[0_2px_20px_rgba(0,0,0,0.08)]"
             : "bg-transparent"
         }`}
       >
@@ -57,7 +73,7 @@ export const LandingHeader = () => {
                 <img src="/logo.svg" alt="KaireTribe" className="h-8 w-auto" />
               </motion.div>
               <motion.span
-                className="text-xl font-bold text-gray-900 tracking-tight"
+                className={`text-xl font-bold tracking-tight transition-colors duration-500 ${isLight ? "text-white" : "text-gray-900"}`}
                 whileHover={{ x: 2 }}
                 transition={{ duration: 0.2 }}
               >
@@ -80,7 +96,8 @@ export const LandingHeader = () => {
                       color:
                         active || hoveredLink === link.href
                           ? "#131DBA"
-                          : "#1b1b1b",
+                          : isLight ? "#ffffff" : "#1b1b1b",
+                      transition: "color 0.5s",
                     }}
                   >
                     {/* Animated hover / active background pill */}
@@ -117,7 +134,7 @@ export const LandingHeader = () => {
               <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
                 <Link
                   href="/sign-up"
-                  className="relative inline-flex items-center justify-center px-6 py-2.5 text-sm font-semibold rounded-lg text-white bg-primary-blue overflow-hidden group shadow-md shadow-indigo-200"
+                  className="relative inline-flex items-center justify-center px-6 py-2.5 text-sm font-semibold rounded-lg text-white bg-primary-blue overflow-hidden group"
                 >
                   {/* Shimmer sweep animation on hover */}
                   <span className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12" />
@@ -132,7 +149,7 @@ export const LandingHeader = () => {
                 whileTap={{ scale: 0.9 }}
                 onClick={() => setIsMenuOpen((o) => !o)}
                 aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-                className="p-2 rounded-lg text-black transition-colors"
+                className={`p-2 rounded-lg transition-colors duration-500 ${isLight ? "text-white" : "text-black"}`}
               >
                 <AnimatePresence mode="wait" initial={false}>
                   {isMenuOpen ? (
