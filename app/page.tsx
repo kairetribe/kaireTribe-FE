@@ -1,6 +1,6 @@
 "use client"
 
-import { HeroSection } from "@/components/landing_page/heroSection";
+import { HeroSection } from "@/components/landing_page/home/hero";
 import { HowItWorksSection } from "@/components/landing_page/howItWorksSection";
 import { FeatureSection } from "@/components/landing_page/featureSection";
 import { ScholarsHighlightSection } from "@/components/landing_page/scholarsHighlightSection";

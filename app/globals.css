@@ -3,6 +3,8 @@
 @theme {
   --color-background: hsl(0 0% 100%);
   --color-foreground: hsl(222.2 84% 4.9%);
+  --color-primary-blue: #131DBA;
+  --color-primary-green: #16A34A;
 }
 
 @layer base {

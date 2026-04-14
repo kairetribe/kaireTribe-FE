@@ -8,6 +8,7 @@ import { Menu, X } from "lucide-react";
 
 const NAV_LINKS = [
   { label: "Home",     href: "/"      },
+  { label: "Scholarships", href: "/scholarships"},
   { label: "About us", href: "/about" },
   { label: "FAQ",      href: "/faq"   },
 ] as const;
@@ -78,8 +79,8 @@ export const LandingHeader = () => {
                     style={{
                       color:
                         active || hoveredLink === link.href
-                          ? "#1a237e"
-                          : "#6B7280",
+                          ? "#131DBA"
+                          : "#1b1b1b",
                     }}
                   >
                     {/* Animated hover / active background pill */}
@@ -87,11 +88,11 @@ export const LandingHeader = () => {
                       {(hoveredLink === link.href || active) && (
                         <motion.span
                           layoutId="nav-pill"
-                          className="absolute inset-0 rounded-lg bg-indigo-50"
+                          className="absolute inset-0 rounded-lg bg-primary-blue/15"
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
                           exit={{ opacity: 0 }}
-                          transition={{ duration: 0.2 }}
+                          transition={{ duration: 0.5 }}
                         />
                       )}
                     </AnimatePresence>
@@ -102,7 +103,7 @@ export const LandingHeader = () => {
                     {active && (
                       <motion.span
                         layoutId="nav-dot"
-                        className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#1a237e]"
+                        className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-primary-blue"
                         transition={{ type: "spring", stiffness: 380, damping: 30 }}
                       />
                     )}
@@ -116,7 +117,7 @@ export const LandingHeader = () => {
               <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
                 <Link
                   href="/sign-up"
-                  className="relative inline-flex items-center justify-center px-6 py-2.5 text-sm font-semibold rounded-lg text-white bg-[#1a237e] overflow-hidden group shadow-md shadow-indigo-200"
+                  className="relative inline-flex items-center justify-center px-6 py-2.5 text-sm font-semibold rounded-lg text-white bg-primary-blue overflow-hidden group shadow-md shadow-indigo-200"
                 >
                   {/* Shimmer sweep animation on hover */}
                   <span className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12" />
@@ -131,7 +132,7 @@ export const LandingHeader = () => {
                 whileTap={{ scale: 0.9 }}
                 onClick={() => setIsMenuOpen((o) => !o)}
                 aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-                className="p-2 rounded-lg text-gray-600 hover:bg-gray-100 transition-colors"
+                className="p-2 rounded-lg text-black transition-colors"
               >
                 <AnimatePresence mode="wait" initial={false}>
                   {isMenuOpen ? (
@@ -187,14 +188,14 @@ export const LandingHeader = () => {
                         href={link.href}
                         className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors ${
                           active
-                            ? "text-[#1a237e] bg-indigo-50"
-                            : "text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+                            ? "text-primary-blue bg-primary-blue/15"
+                            : "text-[#1b1b1b]"
                         }`}
                       >
                         {active && (
                           <motion.span
                             layoutId="mobile-dot"
-                            className="w-1.5 h-1.5 rounded-full bg-[#1a237e]"
+                            className="w-1.5 h-1.5 rounded-full bg-primary-blue"
                           />
                         )}
                         {link.label}
@@ -212,8 +213,8 @@ export const LandingHeader = () => {
                 >
                   <Link
                     href="/sign-up"
-                    className="w-full flex items-center justify-center px-5 py-3.5 text-sm font-semibold rounded-xl text-white bg-[#1a237e] shadow-md shadow-indigo-200 hover:bg-indigo-900 transition-colors"
-                  >
+                    className="w-full flex items-center justify-center px-5 py-3.5 text-sm font-semibold rounded-xl text-white bg-primary-blue "
+                                    >
                     Get Started
                   </Link>
                 </motion.div>
