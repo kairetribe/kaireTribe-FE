@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { AuthProvider } from "@/context/auth";
 import "./globals.css";
-import { AdminDataProvider } from "@/context/adminData";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -14,6 +13,11 @@ export const metadata: Metadata = {
   description:
     "Over 1,000 active Nigerian undergraduate and graduate scholarships. " +
     "Get matched and apply in minutes.",
+  icons: {
+    icon: "/logo.svg",
+    shortcut: "/logo.svg",
+    apple: "/logo.svg",
+  },
 };
 
 interface RootLayoutProps {

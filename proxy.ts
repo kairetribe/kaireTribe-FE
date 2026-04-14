@@ -27,7 +27,7 @@ function redirectTo(path: string, request: NextRequest): NextResponse {
     return NextResponse.redirect(new URL(path, request.url));
 }
 
-export function middleware(request: NextRequest): NextResponse {
+export function proxy(request: NextRequest): NextResponse {
     const { pathname } = request.nextUrl;
     const session = getSession(request);
 
