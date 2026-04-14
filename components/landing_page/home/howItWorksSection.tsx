@@ -1,12 +1,16 @@
 import { CheckCircle2, Hexagon } from "lucide-react";
+import Image from "next/image";
+import howItWorksOvverlay from "@/public/images/landingpage/HIWOverlay.svg"
+import howItWorksImg from "@/public/images/landingpage/hiwImg.png"
 
 export const HowItWorksSection = () => {
     return (
-        <section className="py-20 bg-white overflow-hidden">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-                    <div>
-                        <h2 className="text-3xl sm:text-4xl font-bold text-[#1a237e] mb-12">
+        <section className="overflow-hidden relative">
+            <Image src={howItWorksOvverlay} alt="How it works" className="absolute top-10 scale-120 left-10 w-full h-full z-1 object-cover opacity-80" />
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-30">
+                <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-20 items-center z-30">
+                    <div className="lg:col-span-2 py-10">
+                        <h2 className="text-3xl sm:text-4xl font-bold text-primary-blue mb-12">
                             How It Works
                         </h2>
 
@@ -61,21 +65,11 @@ export const HowItWorksSection = () => {
                             </button>
                         </div>
                     </div>
-                    <div className="relative">
-                        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-full h-full bg-red-50/50 rounded-full blur-3xl opacity-50 z-0"></div>
-                        <div className="relative z-10 rounded-2xl overflow-hidden shadow-xl aspect-[4/5] max-w-md mx-auto lg:ml-auto">
-                            <img
-                                src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&q=80&w=800"
-                                alt="Student smiling"
-                                className="w-full h-full object-cover"
-                            />
-                        </div>
-                        <div className="absolute -bottom-10 -left-10 z-0 opacity-20">
-                            <svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="100" cy="100" r="99.5" stroke="#FF5722" strokeWidth="1" />
-                            </svg>
-                        </div>
-                    </div>
+                    <Image
+                        src={howItWorksImg}
+                        alt="Student smiling"
+                        className="w-full h-full z-30 object-cover lg:col-span-3"
+                    />
                 </div>
             </div>
         </section>

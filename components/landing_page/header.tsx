@@ -55,7 +55,7 @@ export const LandingHeader = ({ heroMode = false }: LandingHeaderProps) => {
         initial={{ y: -80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className={`fixed top-0 left-0 right-0 z-20 transition-all duration-500 ${
+        className={`fixed top-0 left-0 right-0 z-200 transition-all duration-500 ${
           scrolled
             ? "bg-white/20 backdrop-blur-lg shadow-[0_2px_20px_rgba(0,0,0,0.08)]"
             : "bg-transparent"
