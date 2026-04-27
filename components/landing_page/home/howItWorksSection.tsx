@@ -60,7 +60,7 @@ export const HowItWorksSection = () => {
                         </div>
 
                         <div className="mt-12">
-                            <button className="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-[#1a237e] hover:bg-indigo-900 transition-colors shadow-sm">
+                            <button className="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary-blue hover:bg-primary-blue/80 transition-colors shadow-sm">
                                 Get Started
                             </button>
                         </div>
