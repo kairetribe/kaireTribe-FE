@@ -6,6 +6,7 @@ import {
   useTransform,
 } from "framer-motion";
 import heroImg from "@/public/images/hero-img.jpg"
+import { LandingHeader } from "../header";
 
 export const HeroSection = () => {
   const containerRef = useRef<HTMLElement>(null);
@@ -29,8 +30,9 @@ export const HeroSection = () => {
     <section
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      className="relative bg-gray-900 h-[80vh] overflow-hidden"
+      className="relative bg-gray-900 h-screen overflow-hidden"
     >
+      <LandingHeader heroMode />
       {/* ── Background image with parallax ── */}
       <div className="absolute inset-0">
         <motion.img
@@ -48,12 +50,12 @@ export const HeroSection = () => {
       </div>
 
       {/* ── Content ── */}
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
+      <div className="absolute top-0 max-w-7xl mx-auto p-4 sm:p-6 lg:py-8 lg:px-24 h-full flex items-center sm:items-end">
         <div className="max-w-3xl">
 
           {/* Headline */}
           <motion.h1
-            className="text-4xl sm:text-5xl md:text-6xl font-bold text-white tracking-tight leading-[1.15] mb-8"
+            className="text-4xl sm:text-5xl md:text-6xl font-bold text-white tracking-tight leading-[1.15] mb-4 text-center lg:text-left"
             initial="hidden"
             animate="show"
             variants={{
@@ -74,40 +76,13 @@ export const HeroSection = () => {
 
             {/* "scholarships" — gradient highlight + animated squiggle */}
             <motion.span
-              className="inline-block mr-4 relative pb-3"
+              className="inline-block mr-4"
               variants={{
                 hidden: { opacity: 0, y: 48, rotateX: -25 },
                 show: { opacity: 1, y: 0, rotateX: 0, transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] } },
               }}
             >
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 to-cyan-300">
-                scholarships
-              </span>
-              {/* Squiggle underline draws itself in after word lands */}
-              <motion.svg
-                className="absolute -bottom-1 left-0 w-full overflow-visible"
-                viewBox="0 0 300 12"
-                fill="none"
-                preserveAspectRatio="none"
-                style={{ height: "20px" }}
-              >
-                <motion.path
-                  d="M2 8 Q75 2 150 8 Q225 14 298 8"
-                  stroke="url(#squiggle-grad)"
-                  strokeWidth="5"
-                  strokeLinecap="round"
-                  fill="none"
-                  initial={{ pathLength: 0, opacity: 0 }}
-                  animate={{ pathLength: 1, opacity: 1 }}
-                  transition={{ delay: 0.9, duration: 0.8, ease: "easeOut" }}
-                />
-                <defs>
-                  <linearGradient id="squiggle-grad" x1="0" y1="0" x2="1" y2="0">
-                    <stop offset="0%" stopColor="#a5b4fc" />
-                    <stop offset="100%" stopColor="#67e8f9" />
-                  </linearGradient>
-                </defs>
-              </motion.svg>
+              scholarships
             </motion.span>
 
             {/* "you" + line break */}
@@ -125,7 +100,7 @@ export const HeroSection = () => {
 
             {/* "actually" */}
             <motion.span
-              className="inline-block mr-4 mt-2"
+              className="inline-block mr-4"
               variants={{
                 hidden: { opacity: 0, y: 48, rotateX: -25 },
                 show: { opacity: 1, y: 0, rotateX: 0, transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] } },
@@ -164,8 +139,7 @@ export const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.75, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           >
-            Over 1,000 active Nigerian undergraduate and graduate scholarships
-            available. Get matched and apply in minutes.
+            Kaire Tribe helps Nigerian undergraduate and graduate students discover local and international scholarships.
           </motion.p>
 
         </div>
