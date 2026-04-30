@@ -1,16 +1,41 @@
-import chikire from "@/public/images/Chikire_Chierika_Aku-Ibe.jpg";
-import Chizuroke from "@/public/images/Aku-Ibe_Chizuroke_Akuwudike.jpeg";
-import Ezike from "@/public/images/Ezike_Chigozie_Innocent.jpeg";
-import Ofoegbu from "@/public/images/Ofoegbu_Chidinma.jpg";
-import Olivia from "@/public/images/Oputa_Olivia.jpg";
 import Image from "next/image";
 
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const FILES_BUCKET = "kaire-tribe";
+
+// storage/v1/object/sign/
+
+function fileFromBucket(path: string): string {
+  if (!SUPABASE_URL) return `/images/${path}`;
+  return `${SUPABASE_URL}/storage/v1/object/sign/${FILES_BUCKET}/${path}`;
+}
+
 const TEAM_MEMBERS = [
-    { name: "Chikire Chierika Aku-Ibe", role: "Founder", image: chikire },
-    {name:"Aku-Ibe Chizuroke Akuwudike", role: "Programs and Community Lead",image:Chizuroke},
-    {name:"Ofoegbu Chidinma", role: "Content Team Lead",image :Ofoegbu},
-    {name:"Ezike Chigozie Innocent",role:"Publicity Lead",image:Ezike},
-    {name:"Oputa Olivia",role:"Head of Technical Operations",image:Olivia}
+    {
+        name: "Chikire Chierika Aku-Ibe",
+        role: "Founder",
+        image: fileFromBucket("team-image/Chikire_Chierika_Aku-Ibe.jpg")
+    },
+    {
+        name: "Aku-Ibe Chizuroke Akuwudike",
+        role: "Programs and Community Lead",
+        image: fileFromBucket("team-image/Aku-Ibe_Chizuroke_Akuwudike.jpg")
+    },
+    {
+        name: "Ofoegbu Chidinma",
+        role: "Content Team Lead",
+        image: fileFromBucket("team-image/Ofoegbu_Chidinma.jpg")
+    },
+    {
+        name: "Ezike Chigozie Innocent",
+        role: "Publicity Lead",
+        image: fileFromBucket("team-image/Ezike_Chigozie_Innocent.jpeg")
+    },
+    {
+        name: "Oputa Olivia",
+        role: "Head of Technical Operations",
+        image: fileFromBucket("team-image/Oputa_Olivia.JPG")
+    }
 ];
 
 export const TeamSection = () => {
@@ -30,6 +55,9 @@ export const TeamSection = () => {
                                 <Image
                                     src={member.image}
                                     alt={member.name}
+                                    width={360}
+                                    height={480}
+                                    sizes="(max-width: 768px) 45vw, (max-width: 1024px) 30vw, 20vw"
                                     className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-300"
                                 />
                             </div>
