@@ -1,9 +1,16 @@
+import chikire from "@/public/images/Chikire_Chierika_Aku-Ibe.jpg";
+import Chizuroke from "@/public/images/Aku-Ibe_Chizuroke_Akuwudike.jpeg";
+import Ezike from "@/public/images/Ezike_Chigozie_Innocent.jpeg";
+import Ofoegbu from "@/public/images/Ofoegbu_Chidinma.jpg";
+import Olivia from "@/public/images/Oputa_Olivia.jpg";
+import Image from "next/image";
+
 const TEAM_MEMBERS = [
-    { name: "Chikire Chierika Aku-Ibe", role: "Founder", image: "https://i.pravatar.cc/300?img=5" },
-    { name: "Chidinma Ofoegbu", role: "Head of Opportunity Verification Team", image: "https://i.pravatar.cc/300?img=24" },
-    { name: "Oputa Olivia Amarachi", role: "Lead Developer", image: "https://i.pravatar.cc/300?img=16" },
-    { name: "Ezedike Evan", role: "Volunteer | Developer", image: "https://i.pravatar.cc/300?img=2" },
-    { name: "Victor Chigbo", role: "Volunteer | Developer", image: "https://i.pravatar.cc/300?img=13" },
+    { name: "Chikire Chierika Aku-Ibe", role: "Founder", image: chikire },
+    {name:"Aku-Ibe Chizuroke Akuwudike", role: "Programs and Community Lead",image:Chizuroke},
+    {name:"Ofoegbu Chidinma", role: "Content Team Lead",image :Ofoegbu},
+    {name:"Ezike Chigozie Innocent",role:"Publicity Lead",image:Ezike},
+    {name:"Oputa Olivia",role:"Head of Technical Operations",image:Olivia}
 ];
 
 export const TeamSection = () => {
@@ -20,7 +27,7 @@ export const TeamSection = () => {
                     {TEAM_MEMBERS.map((member, idx) => (
                         <div key={idx} className="flex flex-col">
                             <div className="aspect-[3/4] rounded-lg overflow-hidden bg-gray-200 mb-4">
-                                <img
+                                <Image
                                     src={member.image}
                                     alt={member.name}
                                     className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-300"

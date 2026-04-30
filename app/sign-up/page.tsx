@@ -7,7 +7,7 @@ import ProgressBar from "@/components/auth/ui/progressBar";
 import StepOne from "@/components/auth/stepOne";
 import StepTwo from "@/components/auth/stepTwo";
 import StepThree from "@/components/auth/stepThree";
-import { signUpWithEmail } from "@/service/auth";
+import { signInWithGoogle, signUpWithEmail } from "@/service/auth";
 import { useAuthContext } from "@/hooks/useAuthContext";
 import type { SignUpForm, SignUpFormWithPassword } from "@/lib/types/auth";
 
@@ -32,6 +32,8 @@ export default function SignUpPage() {
   const [authMethod, setAuthMethod] = useState<string | null>(null);
   const [form, setForm]             = useState<SignUpForm>(initialForm);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [infoMessage, setInfoMessage] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   // Google = 2 steps | Manual = 3 steps
   const totalSteps = authMethod === "google" ? 2 : 3;
@@ -43,7 +45,7 @@ export default function SignUpPage() {
 
   const handleStep2Next = (): void => {
     if (authMethod === "google") {
-      handleFinalSubmit(form);
+      void handleGoogleSignUp();
     } else {
       setStep(3);
     }
@@ -51,11 +53,23 @@ export default function SignUpPage() {
 
   const handleFinalSubmit = async (data: SignUpForm | SignUpFormWithPassword): Promise<void> => {
     setSubmitError(null);
+    setInfoMessage(null);
+    setIsSubmitting(true);
 
     const { session, error } = await signUpWithEmail(data as SignUpFormWithPassword);
+    setIsSubmitting(false);
 
-    if (error || !session) {
-      setSubmitError(error ?? "Sign up failed. Please try again.");
+    if (error) {
+      if (error.toLowerCase().includes("verify your email")) {
+        setInfoMessage(error);
+      } else {
+        setSubmitError(error);
+      }
+      return;
+    }
+
+    if (!session) {
+      setSubmitError("Sign up failed. Please try again.");
       return;
     }
 
@@ -64,11 +78,27 @@ export default function SignUpPage() {
     router.push("/user");
   };
 
+  const handleGoogleSignUp = async (): Promise<void> => {
+    setSubmitError(null);
+    setInfoMessage(null);
+    setIsSubmitting(true);
+
+    sessionStorage.setItem("signup_profile", JSON.stringify(form));
+    const { error } = await signInWithGoogle(
+      `${window.location.origin}/auth/callback?next=/user&flow=signup`
+    );
+
+    if (error) {
+      setSubmitError(error);
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="flex h-screen w-screen md:overflow-hidden bg-white p-6">
 
       {/* ── Left image panel ── */}
-      <div className="w-1/2 flex-shrink-0 hidden md:block overflow-hidden">
+      <div className="w-1/2 shrink-0 hidden md:block overflow-hidden">
         <img
           src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=900&fit=crop&q=80"
           alt="KaireTribe student"
@@ -83,7 +113,7 @@ export default function SignUpPage() {
           <Logo />
 
           <p className="text-sm text-gray-500 text-center mb-3">
-            Welcome to KaireTribe, let's get you started.
+            Welcome to KaireTribe, let&apos;s get you started.
           </p>
 
           <ProgressBar
@@ -95,6 +125,11 @@ export default function SignUpPage() {
           {submitError && (
             <div className="mb-4 px-4 py-3 bg-red-50 border border-red-200 rounded-lg">
               <p className="text-sm text-red-500">{submitError}</p>
+            </div>
+          )}
+          {infoMessage && (
+            <div className="mb-4 px-4 py-3 bg-blue-50 border border-blue-200 rounded-lg">
+              <p className="text-sm text-blue-700">{infoMessage}</p>
             </div>
           )}
 
@@ -111,6 +146,9 @@ export default function SignUpPage() {
           )}
           {step === 3 && authMethod === "manual" && (
             <StepThree form={form} onSubmit={handleFinalSubmit} />
+          )}
+          {isSubmitting && (
+            <p className="text-xs text-gray-500 text-center mt-3">Processing request...</p>
           )}
 
           <p className="text-center text-xs text-gray-400 mt-2">

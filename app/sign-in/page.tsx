@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Logo from "@/components/ui/logo";
-import { signInWithEmail } from "@/service/auth";
+import { signInWithEmail, signInWithGoogle } from "@/service/auth";
 import { useAuthContext } from "@/hooks/useAuthContext";
 
 function EyeIcon({ visible }: { visible: boolean }) {
@@ -79,9 +79,18 @@ export default function SignInPage() {
     router.push(session.role === "admin" ? "/admin" : "/user");
   };
 
-  const handleGoogleLogin = (): void => {
-    // Google OAuth — coming soon (AUTH-002)
-    console.warn("Google OAuth not yet implemented.");
+  const handleGoogleLogin = async (): Promise<void> => {
+    setError(null);
+    setIsLoading(true);
+
+    const { error: authError } = await signInWithGoogle(
+      `${window.location.origin}/auth/callback?next=/user&flow=signin`
+    );
+
+    if (authError) {
+      setError(authError);
+      setIsLoading(false);
+    }
   };
 
   const inputClass = (field: string) =>
@@ -93,7 +102,7 @@ export default function SignInPage() {
     <div className="flex h-screen w-screen overflow-hidden bg-white">
 
       {/* ── Left image panel ── */}
-      <div className="w-1/2 flex-shrink-0 hidden md:block overflow-hidden">
+      <div className="w-1/2 shrink-0 hidden md:block overflow-hidden">
         <img
           src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=900&fit=crop&q=80"
           alt="KaireTribe student"
@@ -208,6 +217,7 @@ export default function SignInPage() {
           {/* Google */}
           <button
             onClick={handleGoogleLogin}
+            disabled={isLoading}
             className="w-full flex items-center justify-center gap-3 py-3.5 border border-gray-200 rounded-lg bg-white text-gray-900 font-semibold text-sm hover:shadow-md transition-shadow duration-200 mb-6"
           >
             <svg width="19" height="19" viewBox="0 0 24 24">
