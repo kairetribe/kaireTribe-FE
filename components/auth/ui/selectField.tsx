@@ -1,4 +1,4 @@
-import type { SelectFieldProps } from "../../../lib/types/authTypes";
+import type { SelectFieldProps } from "@/lib/types/auth";
 
 
 export default function SelectField({ label, value, onChange, options, placeholder }: SelectFieldProps) {

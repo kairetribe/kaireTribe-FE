@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { finalizeGoogleAuth } from "@/service/auth";
 import { useAuthContext } from "@/hooks/useAuthContext";
@@ -16,7 +16,7 @@ function readSignupProfile(): Partial<SignUpForm> | undefined {
   }
 }
 
-export default function AuthCallbackPage() {
+function AuthCallbackContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { saveSession } = useAuthContext();
@@ -69,5 +69,19 @@ export default function AuthCallbackPage() {
         )}
       </div>
     </main>
+  );
+}
+
+export default function AuthCallbackPage() {
+  return (
+    <Suspense
+      fallback={
+        <main className="min-h-screen flex items-center justify-center px-4">
+          <p className="text-sm text-gray-500">Preparing authentication...</p>
+        </main>
+      }
+    >
+      <AuthCallbackContent />
+    </Suspense>
   );
 }
