@@ -1,4 +1,4 @@
-import type { UserRow, SortField, SortDirection } from "../../context/adminDataContext";
+import type { UserRow, SortField, SortDirection } from "@/context/adminData";
 
 export function filterUsers(users: UserRow[], search: string): UserRow[] {
   if (!search.trim()) return users;
