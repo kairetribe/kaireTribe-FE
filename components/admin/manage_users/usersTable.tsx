@@ -55,7 +55,6 @@ function SkeletonRow() {
       <div className="h-3.5 w-12 bg-gray-100 rounded-full" />
       <div className="h-3.5 w-24 bg-gray-100 rounded-full" />
       <div className="h-5 w-14 bg-gray-100 rounded-full" />
-      <div />
     </div>
   );
 }
@@ -105,7 +104,6 @@ export const UsersTable = () => {
           <SortableHeader field="gender" label="Gender" />
           <SortableHeader field="education_level" label="Education Level" />
           <div className="text-xs font-medium text-gray-500">Status</div>
-          <div />
         </div>
 
         {/* ── Rows ── */}

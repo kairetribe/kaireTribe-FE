@@ -51,6 +51,18 @@ export default function SignUpPage() {
     }
   };
 
+  const handleBack = (): void => {
+    if (isSubmitting || step === 1) return;
+
+    if (step === 2) {
+      setAuthMethod(null);
+      setStep(1);
+      return;
+    }
+
+    setStep(2);
+  };
+
   const handleFinalSubmit = async (data: SignUpForm | SignUpFormWithPassword): Promise<void> => {
     setSubmitError(null);
     setInfoMessage(null);
@@ -120,6 +132,16 @@ export default function SignUpPage() {
             step={step}
             totalSteps={authMethod === null ? 3 : totalSteps}
           />
+          {step > 1 && (
+            <button
+              type="button"
+              onClick={handleBack}
+              disabled={isSubmitting}
+              className="text-sm font-semibold text-[#1C2FBB] hover:underline mt-3 mb-4 disabled:opacity-60 disabled:no-underline"
+            >
+              Back
+            </button>
+          )}
 
           {/* Global submit error */}
           {submitError && (

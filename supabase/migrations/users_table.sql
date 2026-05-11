@@ -52,6 +52,27 @@ for update
 using (auth.uid() = id)
 with check (auth.uid() = id);
 
+create or replace function public.is_admin()
+returns boolean
+language sql
+security definer
+set search_path = public
+stable
+as $$
+  select exists (
+    select 1
+    from public.users
+    where id = auth.uid()
+      and role = 'admin'
+  );
+$$;
+
+drop policy if exists "Admins can read all profiles" on public.users;
+create policy "Admins can read all profiles"
+on public.users
+for select
+using (public.is_admin());
+
 create or replace function public.sync_auth_user_to_profile()
 returns trigger
 language plpgsql
