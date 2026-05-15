@@ -41,11 +41,13 @@ export default async function ScholarshipsPage() {
             <Link key={scholarship.id} href={`/scholarships/${scholarship.slug}`} className="block">
               <ScholarshipCard
                 data={{
+                  id: scholarship.id,
                   title: scholarship.title,
                   description: scholarship.summary,
                   closes: scholarship.closesLabel,
-                  image: { src: scholarship.heroImage },
+                  image: scholarship.heroImage,
                   link: scholarship.link,
+                  slug: scholarship.slug,
                 }}
               />
             </Link>

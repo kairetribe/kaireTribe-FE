@@ -5,26 +5,26 @@ import ScholarshipCard from "@/components/user/scholarshipCard";
 
 const MOCK_SCHOLARSHIPS = [
     {
-        id: 1,
+        id: "mock-1",
         title: "XYZ Scholarship",
         description: "Lorem ipsum itsa dolor Lorem ipsum itsa dolor Lorem ipsum itsa dolorLorem ipsum its...",
-        image: posterImage,
+        image: posterImage.src,
         closes: "12th Feb 2026",
     },
     {
-        id: 2,
+        id: "mock-2",
         title: "XYZ Scholarship",
         description: "Lorem ipsum itsa dolor Lorem ipsum itsa dolor Lorem ipsum itsa dolorLorem ipsum its...",
-        image: posterImage,
+        image: posterImage.src,
         closes: "12th Feb 2026",
     },
     {
-        id: 3,
+        id: "mock-3",
         title: "XYZ Scholarship",
         description: "Lorem ipsum itsa dolor Lorem ipsum itsa dolor Lorem ipsum itsa dolorLorem ipsum its...",
-        image: posterImage,
+        image: posterImage.src,
         closes: "12th Feb 2026",
-    }
+    },
 ];
 
 export default function DashboardHome() {
