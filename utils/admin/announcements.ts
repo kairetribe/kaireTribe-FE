@@ -1,7 +1,16 @@
 import {
   EVERYONE_AUDIENCE_OPTION,
+  type AudienceCategory,
   type AudienceFilters,
 } from "@/lib/types/announcement";
+
+const AUDIENCE_CATEGORY_LABELS: Record<AudienceCategory, string> = {
+  educationLevel: "Education level",
+  fieldOfStudy: "Field of study",
+  interest: "Interest",
+  scholarshipType: "Scholarship type",
+  role: "Role",
+};
 
 const EMPTY_AUDIENCE: AudienceFilters = {
   educationLevel: [],
@@ -52,4 +61,20 @@ export function formatAnnouncementRecipient(
   if (labels.length === 0) return "—";
   if (labels.length <= 3) return labels.join(", ");
   return `${labels.length} filters`;
+}
+
+export function getAnnouncementAudienceDetails(
+  sendToEveryone: boolean,
+  audience: AudienceFilters
+): { label: string; values: string[] }[] {
+  if (sendToEveryone || audience.role.includes(EVERYONE_AUDIENCE_OPTION)) {
+    return [{ label: "Recipients", values: ["Everyone"] }];
+  }
+
+  return (Object.keys(AUDIENCE_CATEGORY_LABELS) as AudienceCategory[])
+    .map((key) => ({
+      label: AUDIENCE_CATEGORY_LABELS[key],
+      values: audience[key].filter((value) => value !== EVERYONE_AUDIENCE_OPTION),
+    }))
+    .filter((item) => item.values.length > 0);
 }

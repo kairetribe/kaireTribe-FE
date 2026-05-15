@@ -103,7 +103,7 @@ export const UsersTable = () => {
           <SortableHeader field="email" label="Email" />
           <SortableHeader field="gender" label="Gender" />
           <SortableHeader field="education_level" label="Education Level" />
-          <div className="text-xs font-medium text-gray-500">Status</div>
+          <SortableHeader field="applied_count" label="Applications" />
         </div>
 
         {/* ── Rows ── */}
@@ -160,11 +160,9 @@ export const UsersTable = () => {
               {/* Education */}
               <div className="text-sm text-gray-900">{user.education_level ?? "—"}</div>
 
-              {/* Status */}
-              <div>
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-green-100 text-green-800">
-                  Active
-                </span>
+              {/* Applications */}
+              <div className="text-sm text-gray-900 font-medium">
+                {user.applied_count}
               </div>
 
               {/* Actions */}

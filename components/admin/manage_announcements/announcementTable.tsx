@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react";
 import { fetchAnnouncements } from "@/service/admin/fetchAnnouncements";
 import type { AnnouncementRow } from "@/lib/types/announcement";
+import { ViewAnnouncementModal } from "@/components/ui/modals/viewAnnouncementModal";
 import {
   formatAnnouncementDate,
   formatAnnouncementRecipient,
@@ -28,6 +29,7 @@ export const AnnouncementTable = () => {
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedAnnouncement, setSelectedAnnouncement] = useState<AnnouncementRow | null>(null);
 
   const totalPages = useMemo(() => Math.max(1, Math.ceil(totalCount / PAGE_SIZE)), [totalCount]);
   const showingFrom = totalCount === 0 ? 0 : (page - 1) * PAGE_SIZE + 1;
@@ -67,6 +69,7 @@ export const AnnouncementTable = () => {
   );
 
   return (
+    <>
     <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden min-h-[600px] flex flex-col">
       <div className="grid grid-cols-[100px_3fr_2fr_1.5fr_50px] px-8 py-6 border-b border-transparent">
         <div className="text-xs font-medium text-gray-500">S/N</div>
@@ -96,7 +99,16 @@ export const AnnouncementTable = () => {
           announcements.map((item, index) => (
             <div
               key={item.id}
-              className="grid grid-cols-[100px_3fr_2fr_1.5fr_50px] px-6 py-4 border-t border-gray-50 items-center hover:bg-gray-50/50 transition-colors"
+              role="button"
+              tabIndex={0}
+              onClick={() => setSelectedAnnouncement(item)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  setSelectedAnnouncement(item);
+                }
+              }}
+              className="grid grid-cols-[100px_3fr_2fr_1.5fr_50px] px-6 py-4 border-t border-gray-50 items-center hover:bg-gray-50/50 transition-colors cursor-pointer"
             >
               <div className="text-sm font-medium text-gray-900 pl-2">{showingFrom + index}</div>
               <div className="text-sm text-gray-700">{item.subject}</div>
@@ -105,7 +117,12 @@ export const AnnouncementTable = () => {
                 {formatAnnouncementRecipient(item.sendToEveryone, item.audience)}
               </div>
               <div className="flex justify-end pr-2">
-                <button type="button" aria-label="Announcement actions" className="text-gray-400 hover:text-gray-600 p-1">
+                <button
+                  type="button"
+                  aria-label="Announcement actions"
+                  onClick={(event) => event.stopPropagation()}
+                  className="text-gray-400 hover:text-gray-600 p-1"
+                >
                   <MoreHorizontal className="w-5 h-5" />
                 </button>
               </div>
@@ -161,5 +178,12 @@ export const AnnouncementTable = () => {
         </div>
       </div>
     </div>
+
+    <ViewAnnouncementModal
+      isOpen={!!selectedAnnouncement}
+      onClose={() => setSelectedAnnouncement(null)}
+      announcement={selectedAnnouncement}
+    />
+    </>
   );
 };

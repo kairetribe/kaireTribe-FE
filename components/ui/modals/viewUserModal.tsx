@@ -1,7 +1,7 @@
 import { useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { CircleX } from "lucide-react";
-import type { UserRow } from "../../../hooks/useUsers";
+import type { UserRow } from "@/context/adminData";
 
 interface ViewUserModalProps {
   isOpen:  boolean;
@@ -112,13 +112,12 @@ export const ViewUserModal = ({ isOpen, onClose, user }: ViewUserModalProps) => 
             </div>
           </div>
 
-          {/* Scholarships applied — hardcoded 0 for now */}
           <div className="flex flex-col gap-1.5">
             <label className="text-xs text-gray-500 font-normal ml-1">
               Number of scholarships applied
             </label>
             <div className="w-full px-4 py-3 rounded-md bg-[#f8f9fa] text-gray-900 text-sm">
-              0
+              {user.applied_count}
             </div>
           </div>
         </div>

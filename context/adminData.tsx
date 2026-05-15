@@ -11,7 +11,7 @@ import { fetchAdminDashboardStats } from "@/service/admin/fetchDashboardStats";
 import type { AdminDashboardStats } from "@/lib/types/adminDashboard";
 import { filterUsers, sortUsers, paginateUsers, toggleSort } from "@/utils/admin/users";
 
-export type SortField     = "first_name" | "email" | "gender" | "education_level";
+export type SortField = "first_name" | "email" | "gender" | "education_level" | "applied_count";
 export type SortDirection = "asc" | "desc";
 
 export interface UserRow {
@@ -25,6 +25,7 @@ export interface UserRow {
   interest:        string | null;
   role:            string;
   created_at:      string;
+  applied_count:   number;
 }
 
 interface AdminDataContextType {

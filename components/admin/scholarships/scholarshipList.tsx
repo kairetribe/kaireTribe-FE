@@ -5,6 +5,7 @@ import Image from "next/image";
 import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react";
 import { fetchScholarships } from "@/service/admin/fetchScholarships";
 import type { ScholarshipRow } from "@/lib/types/scholarship";
+import { ViewScholarshipModal } from "@/components/ui/modals/viewScholarshipModal";
 import { formatScholarshipDate, formatScholarshipStatus } from "@/utils/scholarships";
 
 const PAGE_SIZE = 10;
@@ -34,6 +35,7 @@ export const ScholarshipList = ({ refreshKey = 0 }: ScholarshipListProps) => {
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedScholarship, setSelectedScholarship] = useState<ScholarshipRow | null>(null);
 
   const totalPages = useMemo(() => Math.max(1, Math.ceil(totalCount / PAGE_SIZE)), [totalCount]);
   const showingFrom = totalCount === 0 ? 0 : (page - 1) * PAGE_SIZE + 1;
@@ -73,6 +75,7 @@ export const ScholarshipList = ({ refreshKey = 0 }: ScholarshipListProps) => {
   );
 
   return (
+    <>
     <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden min-h-[600px] flex flex-col">
       <div className="grid grid-cols-[80px_3fr_1.5fr_1.5fr_1fr_50px] px-8 py-6 border-b border-transparent">
         <div className="text-xs font-medium text-gray-500">S/N</div>
@@ -103,7 +106,16 @@ export const ScholarshipList = ({ refreshKey = 0 }: ScholarshipListProps) => {
           scholarships.map((item, index) => (
             <div
               key={item.id}
-              className="grid grid-cols-[80px_3fr_1.5fr_1.5fr_1fr_50px] px-6 py-4 border-t border-gray-50 items-center hover:bg-gray-50/50 transition-colors"
+              role="button"
+              tabIndex={0}
+              onClick={() => setSelectedScholarship(item)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  setSelectedScholarship(item);
+                }
+              }}
+              className="grid grid-cols-[80px_3fr_1.5fr_1.5fr_1fr_50px] px-6 py-4 border-t border-gray-50 items-center hover:bg-gray-50/50 transition-colors cursor-pointer"
             >
               <div className="text-sm font-medium text-gray-900 pl-2">{showingFrom + index}</div>
               <div className="flex items-center gap-4 min-w-0">
@@ -124,7 +136,12 @@ export const ScholarshipList = ({ refreshKey = 0 }: ScholarshipListProps) => {
                 </span>
               </div>
               <div className="flex justify-end pr-2">
-                <button type="button" aria-label="Scholarship actions" className="text-gray-400 hover:text-gray-600 p-1">
+                <button
+                  type="button"
+                  aria-label="Scholarship actions"
+                  onClick={(event) => event.stopPropagation()}
+                  className="text-gray-400 hover:text-gray-600 p-1"
+                >
                   <MoreHorizontal className="w-5 h-5" />
                 </button>
               </div>
@@ -180,5 +197,12 @@ export const ScholarshipList = ({ refreshKey = 0 }: ScholarshipListProps) => {
         </div>
       </div>
     </div>
+
+    <ViewScholarshipModal
+      isOpen={!!selectedScholarship}
+      onClose={() => setSelectedScholarship(null)}
+      scholarship={selectedScholarship}
+    />
+    </>
   );
 };

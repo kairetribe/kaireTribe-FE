@@ -1,13 +1,14 @@
-import type { UserRow } from "../hooks/useUsers";
+import type { UserRow } from "@/context/adminData";
 
 export function exportUsersToCSV(users: UserRow[]): void {
-  const headers = ["Name", "Email", "Gender", "Education Level", "Role", "Joined"];
+  const headers = ["Name", "Email", "Gender", "Education Level", "Applications", "Role", "Joined"];
 
   const rows = users.map((u) => [
     `${u.first_name} ${u.last_name}`,
     u.email,
     u.gender ?? "—",
     u.education_level ?? "—",
+    String(u.applied_count),
     u.role,
     new Date(u.created_at).toLocaleDateString(),
   ]);
