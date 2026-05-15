@@ -28,8 +28,9 @@ export const UserList = () => {
   const router = useRouter();
   const [selectedUser, setSelectedUser] = useState<UserRow | null>(null);
 
-  // Show only the 6 most recently joined users
-  const previewUsers = allUsers.slice(0, 6);
+  const previewUsers = [...allUsers]
+    .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+    .slice(0, 6);
 
   return (
     <>

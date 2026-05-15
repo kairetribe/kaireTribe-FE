@@ -7,9 +7,11 @@ import {
   type ReactNode,
 } from "react";
 import { fetchAllUsers } from "@/service/admin/fetchUsers";
+import { fetchAdminDashboardStats } from "@/service/admin/fetchDashboardStats";
+import type { AdminDashboardStats } from "@/lib/types/adminDashboard";
 import { filterUsers, sortUsers, paginateUsers, toggleSort } from "@/utils/admin/users";
 
-export type SortField     = "first_name" | "email" | "gender" | "education_level";
+export type SortField = "first_name" | "email" | "gender" | "education_level" | "applied_count";
 export type SortDirection = "asc" | "desc";
 
 export interface UserRow {
@@ -23,6 +25,7 @@ export interface UserRow {
   interest:        string | null;
   role:            string;
   created_at:      string;
+  applied_count:   number;
 }
 
 interface AdminDataContextType {
@@ -31,6 +34,10 @@ interface AdminDataContextType {
   isLoading:    boolean;
   error:        string | null;
   refetchUsers: () => void;
+  dashboardStats: AdminDashboardStats | null;
+  isDashboardLoading: boolean;
+  dashboardError: string | null;
+  refetchDashboard: () => void;
 
   // ── UI state ──
   search:        string;
@@ -63,6 +70,9 @@ export const AdminDataProvider = ({ children }: { children: ReactNode }) => {
   const [allUsers, setAllUsers]     = useState<UserRow[]>([]);
   const [isLoading, setIsLoading]   = useState(true);
   const [error, setError]           = useState<string | null>(null);
+  const [dashboardStats, setDashboardStats] = useState<AdminDashboardStats | null>(null);
+  const [isDashboardLoading, setIsDashboardLoading] = useState(true);
+  const [dashboardError, setDashboardError] = useState<string | null>(null);
   const [search, setSearchRaw]      = useState("");
   const [sortField, setSortField]   = useState<SortField>("first_name");
   const [sortDirection, setSortDir] = useState<SortDirection>("asc");
@@ -77,7 +87,22 @@ export const AdminDataProvider = ({ children }: { children: ReactNode }) => {
     setIsLoading(false);
   }, []);
 
-  useEffect(() => { loadUsers(); }, [loadUsers]);
+  const loadDashboard = useCallback(async () => {
+    setIsDashboardLoading(true);
+    const { data, error: statsError } = await fetchAdminDashboardStats();
+    setDashboardStats(data);
+    setDashboardError(statsError);
+    setIsDashboardLoading(false);
+  }, []);
+
+  useEffect(() => {
+    void loadUsers();
+    void loadDashboard();
+  }, [loadUsers, loadDashboard]);
+
+  const refetchDashboard = useCallback(() => {
+    void loadDashboard();
+  }, [loadDashboard]);
 
   // ── Setters ───────────────────────────────────────────────────────────────
   const setSearch = useCallback((value: string) => {
@@ -113,6 +138,7 @@ export const AdminDataProvider = ({ children }: { children: ReactNode }) => {
   return (
     <AdminDataContext.Provider value={{
       allUsers, isLoading, error, refetchUsers,
+      dashboardStats, isDashboardLoading, dashboardError, refetchDashboard,
       search, setSearch,
       sortField, sortDirection, setSort,
       page, setPage, pageSize: PAGE_SIZE,

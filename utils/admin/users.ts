@@ -17,6 +17,11 @@ export function sortUsers(
   direction: SortDirection
 ): UserRow[] {
   return [...users].sort((a, b) => {
+    if (field === "applied_count") {
+      const diff = a.applied_count - b.applied_count;
+      return direction === "asc" ? diff : -diff;
+    }
+
     const valA = (a[field] ?? "").toLowerCase();
     const valB = (b[field] ?? "").toLowerCase();
     if (valA < valB) return direction === "asc" ? -1 : 1;

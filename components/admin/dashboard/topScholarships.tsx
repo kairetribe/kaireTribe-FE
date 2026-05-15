@@ -1,41 +1,43 @@
-import { Filter, X } from "lucide-react";
+"use client";
 
-const scholarships = [
-    { id: 1, name: "Shell Scholarship", applicants: 600 },
-    { id: 2, name: "Shell Scholarship", applicants: 600 },
-    { id: 3, name: "Shell Scholarship", applicants: 600 },
-    { id: 4, name: "Shell Scholarship", applicants: 600 },
-    { id: 5, name: "Shell Scholarship", applicants: 600 },
-];
+import { useAdminData } from "@/hooks/useAdminData";
 
 export const TopScholarships = () => {
-    return (
-        <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm h-full">
-            <div className="flex justify-between items-center mb-6">
-                <h3 className="text-gray-900 font-semibold">Top Performing Scholarships</h3>
-                <div className="flex gap-2">
-                    <button className="flex items-center gap-1.5 px-2.5 py-1 border border-indigo-100 text-indigo-600 rounded-md text-[10px] font-medium bg-indigo-50/50 hover:bg-indigo-50 transition-colors">
-                        <Filter className="w-3 h-3" />
-                        Filter
-                    </button>
-                    <button className="flex items-center gap-1.5 px-2.5 py-1 border border-indigo-100 text-indigo-600 rounded-md text-[10px] font-medium bg-indigo-50/50 hover:bg-indigo-50 transition-colors">
-                        All time
-                        <X className="w-3 h-3 ml-1" />
-                    </button>
-                </div>
-            </div>
+  const { dashboardStats, isDashboardLoading } = useAdminData();
+  const scholarships = dashboardStats?.topScholarships ?? [];
 
-            <div className="space-y-6">
-                {scholarships.map((item, index) => (
-                    <div key={item.id} className="flex justify-between items-center">
-                        <div className="flex items-center gap-3">
-                            <span className="text-gray-900 font-medium text-sm w-4">{index + 1}.</span>
-                            <span className="text-gray-700 text-sm font-medium">{item.name}</span>
-                        </div>
-                        <span className="text-gray-900 text-sm font-medium">{item.applicants} Applicants</span>
-                    </div>
-                ))}
-            </div>
+  return (
+    <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm h-full">
+      <div className="flex justify-between items-center mb-6">
+        <h3 className="text-gray-900 font-semibold">Top Performing Scholarships</h3>
+        <span className="text-[10px] font-medium text-indigo-600 bg-indigo-50/50 border border-indigo-100 px-2.5 py-1 rounded-md">
+          By applications
+        </span>
+      </div>
+
+      {isDashboardLoading ? (
+        <div className="space-y-4">
+          {Array.from({ length: 5 }).map((_, index) => (
+            <div key={index} className="h-5 bg-gray-100 rounded animate-pulse" />
+          ))}
         </div>
-    );
+      ) : scholarships.length === 0 ? (
+        <p className="text-sm text-gray-400 text-center py-8">No applications recorded yet</p>
+      ) : (
+        <div className="space-y-6">
+          {scholarships.map((item, index) => (
+            <div key={item.id} className="flex justify-between items-center gap-3">
+              <div className="flex items-center gap-3 min-w-0">
+                <span className="text-gray-900 font-medium text-sm w-4 shrink-0">{index + 1}.</span>
+                <span className="text-gray-700 text-sm font-medium truncate">{item.name}</span>
+              </div>
+              <span className="text-gray-900 text-sm font-medium shrink-0">
+                {item.applicants.toLocaleString("en-US")} Applicants
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
 };
