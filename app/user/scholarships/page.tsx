@@ -1,9 +1,13 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import ScholarshipCard from "@/components/user/scholarshipCard";
+import Link from "next/link";
 import { ScholarshipFiltersBar } from "@/components/user/scholarships/scholarshipFiltersBar";
+import { EngagedScholarshipCardList } from "@/components/user/scholarships/engagedScholarshipCardList";
 import { fetchActiveScholarships } from "@/service/scholarships/fetchScholarships";
+import { useScholarshipCardEngagement } from "@/hooks/useScholarshipCardEngagement";
+import { useAuthContext } from "@/hooks/useAuthContext";
+import { toScholarshipCardData } from "@/utils/user/dashboard";
 import type { ScholarshipRecord } from "@/lib/types/scholarship";
 import {
   EMPTY_USER_SCHOLARSHIP_FILTERS,
@@ -31,6 +35,10 @@ function ScholarshipCardSkeleton() {
 }
 
 export default function UserScholarshipsPage() {
+  const { isAuthenticated } = useAuthContext();
+  const { actionError, clearActionError, engagementLoading, getCardEngagementProps } =
+    useScholarshipCardEngagement();
+
   const [scholarships, setScholarships] = useState<ScholarshipRecord[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -54,6 +62,11 @@ export default function UserScholarshipsPage() {
     [scholarships, search, filters]
   );
 
+  const filteredCards = useMemo(
+    () => filteredScholarships.map(toScholarshipCardData),
+    [filteredScholarships]
+  );
+
   const activeLabels = useMemo(() => getActiveFilterLabels(filters), [filters]);
 
   const handleRemoveLabel = (label: string) => {
@@ -74,6 +87,24 @@ export default function UserScholarshipsPage() {
           onRemoveLabel={handleRemoveLabel}
         />
       </div>
+
+      {!isAuthenticated && (
+        <p className="text-sm text-gray-600">
+          <Link href="/sign-in" className="text-[#4361EE] font-medium hover:underline">
+            Sign in
+          </Link>{" "}
+          to save scholarships and track applications.
+        </p>
+      )}
+
+      {actionError && (
+        <div className="px-4 py-3 bg-red-50 border border-red-200 rounded-lg flex items-center justify-between gap-4">
+          <p className="text-sm text-red-500">{actionError}</p>
+          <button type="button" onClick={clearActionError} className="text-xs text-red-600 underline shrink-0">
+            Dismiss
+          </button>
+        </div>
+      )}
 
       {error && (
         <div className="px-4 py-3 bg-red-50 border border-red-200 rounded-lg">
@@ -107,23 +138,16 @@ export default function UserScholarshipsPage() {
         </div>
       )}
 
-      {!isLoading && !error && filteredScholarships.length > 0 && (
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-          {filteredScholarships.map((scholarship) => (
-            <ScholarshipCard
-              key={scholarship.id}
-              data={{
-                id: scholarship.id,
-                title: scholarship.title,
-                description: scholarship.summary,
-                closes: scholarship.closesLabel,
-                image: scholarship.heroImage,
-                link: scholarship.link,
-                slug: scholarship.slug,
-              }}
-            />
-          ))}
-        </div>
+      {!isLoading && !error && filteredCards.length > 0 && (
+        <EngagedScholarshipCardList
+          scholarships={filteredCards}
+          getCardEngagementProps={getCardEngagementProps}
+          gridClassName="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"
+        />
+      )}
+
+      {engagementLoading && isAuthenticated && (
+        <p className="text-xs text-gray-400 text-center">Loading your saved and applied scholarships…</p>
       )}
     </div>
   );

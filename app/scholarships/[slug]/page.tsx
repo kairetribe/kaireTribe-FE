@@ -8,6 +8,7 @@ import { CTA } from "@/components/landing_page/CTA";
 import Footer from "@/components/landing_page/footer";
 import { fetchActiveScholarships, getScholarshipBySlug } from "@/lib/data/scholarships";
 import { fetchScholarshipSlugs } from "@/service/scholarships/fetchScholarships";
+import { ScholarshipDetailActions } from "@/components/user/scholarships/scholarshipDetailActions";
 
 interface ScholarshipDetailProps {
   params: Promise<{ slug: string }>;
@@ -104,22 +105,7 @@ export default async function ScholarshipDetailPage({ params }: ScholarshipDetai
               ))}
             </div>
 
-            <div className="flex items-center gap-4 mt-10">
-              <button
-                type="button"
-                className="px-7 py-2 rounded-full border border-gray-300 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
-              >
-                Save Scholarship
-              </button>
-              <a
-                href={scholarship.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-12 py-2 rounded-full bg-[#1a1b80] text-sm text-white font-semibold hover:opacity-90 transition-opacity"
-              >
-                Apply
-              </a>
-            </div>
+            <ScholarshipDetailActions scholarshipId={scholarship.id} applyLink={scholarship.link} />
           </article>
 
           <aside>
