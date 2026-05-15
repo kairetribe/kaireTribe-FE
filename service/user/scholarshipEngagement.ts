@@ -109,6 +109,22 @@ export async function fetchUserSavedScholarships(): Promise<{
   return { data: items, error: null };
 }
 
+export async function fetchAppliedScholarshipsCount(): Promise<{
+  count: number;
+  error: string | null;
+}> {
+  const userId = await getAuthenticatedUserId();
+  if (!userId) return { count: 0, error: null };
+
+  const { count, error } = await supabase
+    .from("applied_scholarships")
+    .select("*", { count: "exact", head: true })
+    .eq("user_id", userId);
+
+  if (error) return { count: 0, error: error.message };
+  return { count: count ?? 0, error: null };
+}
+
 export async function fetchUserAppliedScholarships(): Promise<{
   data: UserScholarshipListItem[];
   error: string | null;

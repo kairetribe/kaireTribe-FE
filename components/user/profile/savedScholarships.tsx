@@ -13,7 +13,7 @@ export const SavedScholarships = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [search, setSearch] = useState("");
-  const { toggleSave, isSaved, refresh } = useScholarshipEngagement();
+  const { toggleSave, isSaved, isApplied, refresh } = useScholarshipEngagement();
 
   const loadSaved = useCallback(async () => {
     setIsLoading(true);
@@ -121,6 +121,7 @@ export const SavedScholarships = () => {
               }}
               showEngagement
               isSaved={isSaved(scholarship.id)}
+              isApplied={isApplied(scholarship.id)}
               onToggleSave={() => void handleUnsave(scholarship.id)}
             />
           ))}

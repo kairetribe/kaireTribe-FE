@@ -1,16 +1,27 @@
 "use client";
-import { useState } from 'react';
-import { User, BookOpen, Lock, Settings, Bookmark, FileCheck } from 'lucide-react';
-import { SavedScholarships } from '@/components/user/profile/savedScholarships';
-import { EditProfile } from '@/components/user/profile/editProfile';
-import { EditScholarshipProfile } from '@/components/user/profile/editScholarshipProfile';
-import { Security } from '@/components/user/profile/security';
-import { AppliedScholarships } from '@/components/user/profile/appliedScholarships';
+
+import { useCallback, useEffect, useState } from "react";
+import { User, BookOpen, Lock, Settings, Bookmark, FileCheck } from "lucide-react";
+import { SavedScholarships } from "@/components/user/profile/savedScholarships";
+import { EditProfile } from "@/components/user/profile/editProfile";
+import { EditScholarshipProfile } from "@/components/user/profile/editScholarshipProfile";
+import { Security } from "@/components/user/profile/security";
+import { AppliedScholarships } from "@/components/user/profile/appliedScholarships";
+import { fetchAppliedScholarshipsCount } from "@/service/user/scholarshipEngagement";
 
 export default function Profile() {
-    const [activeTab, setActiveTab] = useState<'saved' | 'applied-scholarships' | 'settings'>('saved');
+    const [activeTab, setActiveTab] = useState<"saved" | "applied-scholarships" | "settings">("saved");
     const [appliedScholarshipsCount, setAppliedScholarshipsCount] = useState(0);
-    const [settingsTab, setSettingsTab] = useState<'profile' | 'scholarship' | 'security'>('profile');
+    const [settingsTab, setSettingsTab] = useState<"profile" | "scholarship" | "security">("profile");
+
+    const loadAppliedCount = useCallback(async () => {
+        const { count } = await fetchAppliedScholarshipsCount();
+        setAppliedScholarshipsCount(count);
+    }, []);
+
+    useEffect(() => {
+        void loadAppliedCount();
+    }, [loadAppliedCount]);
     return (
         <div className="space-y-8 min-h-screen bg-transparent">
             <div className="border-b border-gray-200">
