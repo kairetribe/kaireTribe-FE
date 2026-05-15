@@ -44,16 +44,8 @@ export const ScholarshipDetailActions = ({ scholarshipId, applyLink }: Scholarsh
           <Link href="/sign-in" className="text-[#1a237e] font-medium hover:underline">
             Sign in
           </Link>{" "}
-          to save scholarships and track your applications.
+          to save or apply for scholarships and track your applications.
         </p>
-        <a
-          href={applyLink}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="px-12 py-2 rounded-full bg-[#1a237e] text-sm text-white font-semibold hover:opacity-90 transition-opacity"
-        >
-          Apply
-        </a>
       </div>
     );
   }

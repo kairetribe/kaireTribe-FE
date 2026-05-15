@@ -130,18 +130,9 @@ export default function ScholarshipCard({
                     {isApplying ? "..." : isApplied ? "Applied" : "Apply"}
                   </button>
                 ) : data.link && showEngagement && isApplied ? (
-                  <span className="bg-[#1a237e] text-white text-xs font-semibold px-5 py-2 rounded-full hover:bg-blue-900 transition-colors shrink-0 opacity-60">
+                  <span className="inline-flex items-center rounded-full border border-emerald-200 bg-emerald-50 px-5 py-2 text-xs font-semibold text-emerald-800 shrink-0">
                     Applied
                   </span>
-                ) : data.link ? (
-                  <a
-                    href={data.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-[#1a237e] text-white text-xs font-semibold px-6 py-2 rounded-full hover:bg-blue-900 transition-colors shrink-0"
-                  >
-                    Apply
-                  </a>
                 ) : detailHref ? (
                   <Link
                     href={detailHref}
