@@ -6,7 +6,8 @@ import { notFound } from "next/navigation";
 import { LandingHeader } from "@/components/landing_page/header";
 import { CTA } from "@/components/landing_page/CTA";
 import Footer from "@/components/landing_page/footer";
-import { SCHOLARSHIPS, getScholarshipBySlug } from "@/lib/data/scholarships";
+import { fetchActiveScholarships, getScholarshipBySlug } from "@/lib/data/scholarships";
+import { fetchScholarshipSlugs } from "@/service/scholarships/fetchScholarships";
 
 interface ScholarshipDetailProps {
   params: Promise<{ slug: string }>;
@@ -14,13 +15,16 @@ interface ScholarshipDetailProps {
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.kairetribe.com";
 
+export const revalidate = 60;
+
 export async function generateStaticParams() {
-  return SCHOLARSHIPS.map((scholarship) => ({ slug: scholarship.slug }));
+  const slugs = await fetchScholarshipSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: ScholarshipDetailProps): Promise<Metadata> {
   const { slug } = await params;
-  const scholarship = getScholarshipBySlug(slug);
+  const scholarship = await getScholarshipBySlug(slug);
   if (!scholarship) return { title: "Scholarship Not Found | KaireTribe" };
 
   const canonical = `${SITE_URL}/scholarships/${scholarship.slug}`;
@@ -47,10 +51,12 @@ export async function generateMetadata({ params }: ScholarshipDetailProps): Prom
 
 export default async function ScholarshipDetailPage({ params }: ScholarshipDetailProps) {
   const { slug } = await params;
-  const scholarship = getScholarshipBySlug(slug);
+  const scholarship = await getScholarshipBySlug(slug);
   if (!scholarship) notFound();
 
-  const similarScholarships = SCHOLARSHIPS.filter((item) => item.slug !== scholarship.slug).slice(0, 4);
+  const { data: allScholarships } = await fetchActiveScholarships();
+  const similarScholarships = allScholarships.filter((item) => item.slug !== scholarship.slug).slice(0, 4);
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -78,7 +84,7 @@ export default async function ScholarshipDetailPage({ params }: ScholarshipDetai
               </span>
               <span className="inline-flex items-center gap-2">
                 <Clock3 className="w-4 h-4" />
-                {scholarship.readingMinutes} minutes ago
+                {scholarship.readingMinutes} min read
               </span>
             </div>
 
@@ -99,12 +105,20 @@ export default async function ScholarshipDetailPage({ params }: ScholarshipDetai
             </div>
 
             <div className="flex items-center gap-4 mt-10">
-              <button className="px-7 py-2 rounded-full border border-gray-300 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+              <button
+                type="button"
+                className="px-7 py-2 rounded-full border border-gray-300 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+              >
                 Save Scholarship
               </button>
-              <button className="px-12 py-2 rounded-full bg-[#1a1b80] text-sm text-white font-semibold hover:opacity-90 transition-opacity">
+              <a
+                href={scholarship.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-12 py-2 rounded-full bg-[#1a1b80] text-sm text-white font-semibold hover:opacity-90 transition-opacity"
+              >
                 Apply
-              </button>
+              </a>
             </div>
           </article>
 
