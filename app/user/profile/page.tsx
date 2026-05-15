@@ -8,11 +8,13 @@ import { EditScholarshipProfile } from "@/components/user/profile/editScholarshi
 import { Security } from "@/components/user/profile/security";
 import { AppliedScholarships } from "@/components/user/profile/appliedScholarships";
 import { fetchAppliedScholarshipsCount } from "@/service/user/scholarshipEngagement";
+import { useUserProfile } from "@/hooks/useUserProfile";
 
 export default function Profile() {
     const [activeTab, setActiveTab] = useState<"saved" | "applied-scholarships" | "settings">("saved");
     const [appliedScholarshipsCount, setAppliedScholarshipsCount] = useState(0);
     const [settingsTab, setSettingsTab] = useState<"profile" | "scholarship" | "security">("profile");
+    const { profile, isLoading: isProfileLoading, error: profileError, setProfileFromServer } = useUserProfile();
 
     const loadAppliedCount = useCallback(async () => {
         const { count } = await fetchAppliedScholarshipsCount();
@@ -113,9 +115,29 @@ export default function Profile() {
                         </button>
                     </div>
                     <div className="flex-1 max-w-2xl bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                        {settingsTab === 'profile' && <EditProfile />}
-                        {settingsTab === 'scholarship' && <EditScholarshipProfile />}
-                        {settingsTab === 'security' && <Security />}
+                        {settingsTab === "profile" && (
+                            <EditProfile
+                                profile={profile}
+                                isLoading={isProfileLoading}
+                                loadError={profileError}
+                                onSaved={setProfileFromServer}
+                            />
+                        )}
+                        {settingsTab === "scholarship" && (
+                            <EditScholarshipProfile
+                                profile={profile}
+                                isLoading={isProfileLoading}
+                                loadError={profileError}
+                                onSaved={setProfileFromServer}
+                            />
+                        )}
+                        {settingsTab === "security" && (
+                            <Security
+                                email={profile?.email ?? ""}
+                                isLoading={isProfileLoading}
+                                loadError={profileError}
+                            />
+                        )}
                     </div>
                 </div>
             )}
