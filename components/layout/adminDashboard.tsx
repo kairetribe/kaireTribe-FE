@@ -11,6 +11,7 @@ import {
     X,
     Menu,
     ShieldCheck,
+    ListCheck,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { UserProfileFooter } from "@/components/layout/layoutFooter";
@@ -22,6 +23,8 @@ const navigation = [
     { name: "Scholarships", href: "/admin/scholarships", icon: GraduationCap },
     { name: "Users", href: "/admin/users", icon: Users },
     { name: "Announcements", href: "/admin/announcement", icon: MicVocal },
+    { name:"Waiting List", href: "/admin/waitlist", icon: ListCheck },
+
 ] as const;
 
 interface AdminLayoutProps {
