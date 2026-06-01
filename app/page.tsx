@@ -1,6 +1,6 @@
 "use client"
 
-import { HeroSection } from "@/components/landing_page/home/hero";
+import { HeroSection } from "@/components/landing_page/home/hero"; 
 import { HowItWorksSection } from "@/components/landing_page/home/howItWorksSection";
 import { FeatureSection } from "@/components/landing_page/home/featureSection";
 import { ScholarsHighlightSection } from "@/components/landing_page/scholarsHighlightSection";
@@ -22,7 +22,7 @@ export default function LandingPage() {
                     title="Personalized recommendations"
                     description="Our tech-driven matching ensures you barely encounter scholarships you're not eligible for. Get recommendations that align with your course, level, and goals."
                     bgClass="bg-[#ECF9EF]"
-                    imageSrc="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?auto=format&fit=crop&q=80&w=800"
+                    imageSrc="/images/home.jpg"
                     imageAlt="Student with backpack"
                     imageOnLeft={false}
                 />
@@ -30,7 +30,7 @@ export default function LandingPage() {
                     title="Built for Nigerian students"
                     description="Here are resources tailored specifically for real needs. No fluff, just relevant guides, requirements, and pathways that work here."
                     bgClass="bg-[#F1F2FE]"
-                    imageSrc="https://images.unsplash.com/photo-1525130413817-d45c1d127c42?auto=format&fit=crop&q=80&w=800"
+                    imageSrc="/images/home2.jpg"
                     imageAlt="Student smiling"
                     imageOnLeft={true}
                 />
@@ -38,7 +38,7 @@ export default function LandingPage() {
                     title="Local & international opportunities"
                     description="From Nigerian-based funding to full ride scholarships abroad, we bring different opportunities together in one place."
                     bgClass="bg-[#ECF9EF]"
-                    imageSrc="https://images.unsplash.com/photo-1664575602276-acd073f104c1?auto=format&fit=crop&q=80&w=800"
+                    imageSrc="/images/home3.jpg"
                     imageAlt="Student with blue folder"
                     imageOnLeft={false}
                 />

@@ -2,10 +2,10 @@ import Image from "next/image";
 
 const TEAM_MEMBERS = [
     { name: "Chikire Chierika Aku-Ibe", role: "Founder", image: "/images/Chikire_Chierika_Aku-Ibe.JPG" },
-    {name:"Aku-Ibe Chizuroke Akuwudike", role: "Programs and Community Lead",image:"/images/Aku-Ibe_Chizuroke_Akuwudike.jpeg"},
-    {name:"Ofoegbu Chidinma", role: "Content Team Lead",image :"/images/Ofoegbu_Chidinma.jpg"},
-    {name:"Ezike Chigozie Innocent",role:"Publicity Lead",image:"/images/Ezike_Chigozie_Innocent.jpeg"},
-    {name:"Oputa Olivia",role:"Head of Technical Operations",image:"/images/Oputa_Olivia.JPG"}
+    {name:"Aku-Ibe Chizuroke Akuwudike", role: "Head of Programs and Community",image:"/images/Aku-Ibe_Chizuroke_Akuwudike.jpeg"},
+    {name:"Oputa Olivia",role:"Head of Technical Operations",image:"/images/Oputa_Olivia.JPG"},
+    {name:"Ezike Chigozie Innocent",role:"Head of publicity",image:"/images/Ezike_Chigozie_Innocent.jpeg"},
+    {name:"Ofoegbu Chidinma", role: "Head of conten",image :"/images/Ofoegbu_Chidinma.jpg"},
 ];
 
 export const TeamSection = () => {
@@ -27,7 +27,7 @@ export const TeamSection = () => {
                                     alt={member.name}
                                     width={360}
                                     height={480}
-                                    className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-300"
+                                    className="w-full h-full object-cover transition-all duration-300"
                                 />
                             </div>
                             <h3 className="text-lg font-bold text-gray-900">{member.name}</h3>
