@@ -3,7 +3,11 @@ import { useState } from "react";
 import { ProfileCreationModal } from "../../ui/modals/profileCreationModal";
 import { CreateRoleModal } from "../../ui/modals/createRoleModal";
 
-export const RoleActionBar = () => {
+interface RoleActionBarProps {
+    onStaffCreated?: () => void;
+}
+
+export const RoleActionBar = ({ onStaffCreated }: RoleActionBarProps) => {
     const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
     const [isRoleModalOpen, setIsRoleModalOpen] = useState(false);
 
@@ -21,13 +25,13 @@ export const RoleActionBar = () => {
                     />
                 </div>
                 <div className="flex items-center gap-3 w-full sm:w-auto">
-                    <button
+                    {/* <button
                         onClick={() => setIsRoleModalOpen(true)}
                         className="flex-1 sm:flex-none inline-flex items-center justify-center px-4 py-2.5 border border-indigo-100 text-sm font-medium rounded-lg text-primary bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary shadow-sm transition-shadow"
                     >
                         <CirclePlus className="h-5 w-5 mr-2" />
                         Create new role
-                    </button>
+                    </button> */}
                     <button
                         onClick={() => setIsProfileModalOpen(true)}
                         className="flex-1 sm:flex-none inline-flex items-center justify-center px-4 py-2.5 border border-transparent text-sm font-medium rounded-lg text-white bg-[#002699] hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary shadow-md hover:shadow-lg transition-shadow"
@@ -41,6 +45,7 @@ export const RoleActionBar = () => {
             <ProfileCreationModal
                 isOpen={isProfileModalOpen}
                 onClose={() => setIsProfileModalOpen(false)}
+                onCreated={onStaffCreated}
             />
 
             <CreateRoleModal

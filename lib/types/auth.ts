@@ -51,7 +51,7 @@ export interface SelectFieldProps {
 
 export type AuthMethod = "google" | "manual";
 
-export type Role = "user" | "admin";
+export type Role = "user" | "admin" | "verifier";
 
 export interface SignUpForm {
   firstName:       string;
