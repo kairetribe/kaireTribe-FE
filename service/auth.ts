@@ -109,7 +109,7 @@ export async function signInWithEmail(
         email: data.email,
         firstName: data.first_name,
         lastName: data.last_name,
-        role: data.role as "user" | "admin",
+        role: data.role as "user" | "admin" | "verifier",
       },
       error: null,
     };

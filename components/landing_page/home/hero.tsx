@@ -5,7 +5,7 @@ import {
   useSpring,
   useTransform,
 } from "framer-motion";
-import heroImg from "@/public/images/hero-img.jpg"
+import bannerImg from "@/public/images/bannerImg.jpg"
 import { LandingHeader } from "../header";
 
 export const HeroSection = () => {
@@ -36,7 +36,7 @@ export const HeroSection = () => {
       {/* ── Background image with parallax ── */}
       <div className="absolute inset-0">
         <motion.img
-          src={heroImg.src}
+          src={bannerImg.src}
           alt="Students group"
           className="w-full h-full object-cover object-center opacity-60 scale-110"
           style={{ x: imgX, y: imgY }}

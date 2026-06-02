@@ -12,6 +12,9 @@ const PROFILE_REQUIRED_ROUTES = ["/user"];
 
 const ADMIN_ONLY_ROUTES = ["/admin"];
 
+/** Routes that require role === "admin" (not verifier or other staff roles). */
+const SUPER_ADMIN_ONLY_ROUTES = ["/admin/manage-roles"];
+
 function getSession(request: NextRequest): LocalSession | null {
     const cookie = request.cookies.get(SESSION_COOKIE);
     if (!cookie?.value) return null;
@@ -32,7 +35,7 @@ export function proxy(request: NextRequest): NextResponse {
     const session = getSession(request);
 
     const isAuthenticated = session !== null;
-    const isAdmin = session?.role === "admin";
+    const isAdmin = session?.role === "admin" || session?.role === "verifier";
 
     const isProfileComplete = isAuthenticated;
 
@@ -40,6 +43,9 @@ export function proxy(request: NextRequest): NextResponse {
     const isAuthRequired = AUTH_REQUIRED_ROUTES.some((r) => pathname.startsWith(r));
     const isProfileRequired = PROFILE_REQUIRED_ROUTES.some((r) => pathname.startsWith(r));
     const isAdminOnly = ADMIN_ONLY_ROUTES.some((r) => pathname.startsWith(r));
+    const isSuperAdminOnly = SUPER_ADMIN_ONLY_ROUTES.some((r) =>
+        pathname.startsWith(r)
+    );
 
     if (isPublicOnly && isAuthenticated){
         if (isAdmin) return redirectTo("/admin", request);
@@ -62,6 +68,10 @@ export function proxy(request: NextRequest): NextResponse {
 
         if (isAdminOnly && !isAdmin){
             return redirectTo("/user", request);
+        }
+
+        if (isSuperAdminOnly && session.role !== "admin") {
+            return redirectTo("/admin", request);
         }
 
         if (isAdmin && pathname.startsWith("/user")){

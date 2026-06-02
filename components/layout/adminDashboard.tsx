@@ -11,17 +11,20 @@ import {
     X,
     Menu,
     ShieldCheck,
+    ListCheck,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { UserProfileFooter } from "@/components/layout/layoutFooter";
 import Logo from "@/components/ui/logo";
+import { useAuthContext } from "@/hooks/useAuthContext";
 
 const navigation = [
-    { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
-    { name: "Manage Roles", href: "/admin/manage-roles", icon: ShieldCheck },
-    { name: "Scholarships", href: "/admin/scholarships", icon: GraduationCap },
-    { name: "Users", href: "/admin/users", icon: Users },
-    { name: "Announcements", href: "/admin/announcement", icon: MicVocal },
+    { name: "Dashboard", href: "/admin", icon: LayoutDashboard, adminOnly: false },
+    { name: "Manage Roles", href: "/admin/manage-roles", icon: ShieldCheck, adminOnly: true },
+    { name: "Scholarships", href: "/admin/scholarships", icon: GraduationCap, adminOnly: false },
+    { name: "Users", href: "/admin/users", icon: Users, adminOnly: false },
+    { name: "Announcements", href: "/admin/announcement", icon: MicVocal, adminOnly: false },
+    { name: "Waiting List", href: "/admin/waitlist", icon: ListCheck, adminOnly: false },
 ] as const;
 
 interface AdminLayoutProps {
@@ -31,6 +34,11 @@ interface AdminLayoutProps {
 export default function AdminLayout({ children }: AdminLayoutProps) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const pathname = usePathname();
+    const { role } = useAuthContext();
+
+    const visibleNavigation = navigation.filter(
+        (item) => !item.adminOnly || role === "admin"
+    );
 
     const NavLink = ({ item }: { item: (typeof navigation)[number] }) => {
         const isActive = pathname === item.href;
@@ -96,7 +104,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                                 <Logo />
                             </div>
                             <nav className="mt-5 px-2 space-y-1">
-                                {navigation.map((item) => (
+                                {visibleNavigation.map((item) => (
                                     <NavLink key={item.name} item={item} />
                                 ))}
                             </nav>
@@ -114,7 +122,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                 <Logo />
                 <div className="mt-5 flex-1 flex flex-col overflow-y-auto">
                     <nav className="flex-1 px-2 space-y-1">
-                        {navigation.map((item) => (
+                        {visibleNavigation.map((item) => (
                             <NavLink key={item.name} item={item} />
                         ))}
                     </nav>
