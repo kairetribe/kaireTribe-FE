@@ -11,7 +11,7 @@ export interface ServiceItem {
   accent: "blue" | "green";
 }
 
-export const SERVICES_HERO_IMAGE = "/images/bannerImg.jpg";
+export const SERVICES_HERO_IMAGE = "";
 
 export const SERVICES_INTRO = {
   title: "Our Services",

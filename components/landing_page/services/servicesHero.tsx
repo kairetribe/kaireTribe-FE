@@ -4,7 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowDown } from "lucide-react";
-import { SERVICES_HERO_IMAGE, SERVICES_INTRO } from "./servicesContent";
+import {SERVICES_INTRO } from "./servicesContent";
+import SERVICES_HERO_IMAGE from "@/public/images/about-hero.png";
 
 export function ServicesHero() {
   return (
