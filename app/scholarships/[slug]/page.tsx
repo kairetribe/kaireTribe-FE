@@ -58,6 +58,7 @@ export default async function ScholarshipDetailPage({ params }: ScholarshipDetai
 
   const { data: allScholarships } = await fetchActiveScholarships();
   const similarScholarships = allScholarships.filter((item) => item.slug !== scholarship.slug).slice(0, 4);
+  const scholarshipTags = [`Type: ${scholarship.scholarshipType}`, `Open to: ${scholarship.openTo}`, scholarship.sponsor];
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -89,6 +90,17 @@ export default async function ScholarshipDetailPage({ params }: ScholarshipDetai
                 <Clock3 className="w-4 h-4" />
                 {scholarship.readingMinutes} min read
               </span>
+            </div>
+
+            <div className="flex flex-wrap gap-2 mb-5">
+              {scholarshipTags.map((tag) => (
+                <span
+                  key={tag}
+                  className="inline-flex items-center rounded-full bg-indigo-50 px-3 py-1 text-xs font-medium text-indigo-700"
+                >
+                  {tag}
+                </span>
+              ))}
             </div>
 
             <p className="text-sm font-medium text-gray-800 mb-4">{scholarship.sponsor}</p>

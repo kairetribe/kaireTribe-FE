@@ -10,5 +10,8 @@ export function toScholarshipCardData(scholarship: ScholarshipRecord): Scholarsh
     image: scholarship.heroImage,
     link: scholarship.link,
     slug: scholarship.slug,
+    scholarshipType: scholarship.scholarshipType,
+    openTo: scholarship.openTo,
+    sponsor: scholarship.sponsor,
   };
 }

@@ -6,6 +6,7 @@ import { Search, Bookmark } from "lucide-react";
 import ScholarshipCard from "@/components/user/scholarshipCard";
 import { useScholarshipEngagement } from "@/hooks/useScholarshipEngagement";
 import { fetchUserSavedScholarships } from "@/service/user/scholarshipEngagement";
+import { toScholarshipCardData } from "@/utils/user/dashboard";
 import type { UserScholarshipListItem } from "@/lib/types/scholarshipEngagement";
 
 export const SavedScholarships = () => {
@@ -110,15 +111,7 @@ export const SavedScholarships = () => {
           {filtered.map((scholarship) => (
             <ScholarshipCard
               key={scholarship.id}
-              data={{
-                id: scholarship.id,
-                title: scholarship.title,
-                description: scholarship.summary,
-                closes: scholarship.closesLabel,
-                image: scholarship.heroImage,
-                link: scholarship.link,
-                slug: scholarship.slug,
-              }}
+              data={toScholarshipCardData(scholarship)}
               showEngagement
               isSaved={isSaved(scholarship.id)}
               isApplied={isApplied(scholarship.id)}

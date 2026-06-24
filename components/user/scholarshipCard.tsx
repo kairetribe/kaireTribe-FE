@@ -11,6 +11,9 @@ export interface ScholarshipCardData {
   image: string;
   link?: string;
   slug?: string;
+  scholarshipType?: string;
+  openTo?: string;
+  sponsor?: string;
 }
 
 interface ScholarshipCardProps {
@@ -25,9 +28,17 @@ interface ScholarshipCardProps {
   onView?: () => void;
 }
 
-function getViewButtonLabel( isViewed: boolean): string {
+function getViewButtonLabel(isViewed: boolean): string {
   if (isViewed) return "Viewed";
   return "View";
+}
+
+function buildScholarshipTags(data: ScholarshipCardData): string[] {
+  const tags: string[] = [];
+  if (data.scholarshipType) tags.push(`Type: ${data.scholarshipType}`);
+  if (data.openTo) tags.push(`Open to: ${data.openTo}`);
+  if (data.sponsor) tags.push(data.sponsor);
+  return tags;
 }
 
 export default function ScholarshipCard({
@@ -43,6 +54,7 @@ export default function ScholarshipCard({
 }: ScholarshipCardProps) {
   const detailHref = data.slug ? `/scholarships/${data.slug}` : null;
   const viewButtonLabel = getViewButtonLabel(isViewed);
+  const scholarshipTags = buildScholarshipTags(data);
 
   return (
     <div>
@@ -80,6 +92,18 @@ export default function ScholarshipCard({
               </Link>
             ) : (
               <h4 className="font-bold text-gray-900 text-lg mb-2 line-clamp-2">{data.title}</h4>
+            )}
+            {scholarshipTags.length > 0 && (
+              <div className="flex flex-wrap gap-1.5 mb-3">
+                {scholarshipTags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="inline-flex items-center rounded-full bg-indigo-50 px-2 py-0.5 text-[10px] font-medium text-indigo-700"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
             )}
             <p className="text-gray-500 text-xs text-justify mb-4 leading-relaxed line-clamp-4 flex-1">
               {data.description}
