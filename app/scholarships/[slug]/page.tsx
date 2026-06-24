@@ -9,6 +9,7 @@ import Footer from "@/components/landing_page/footer";
 import { fetchActiveScholarships, getScholarshipBySlug } from "@/lib/data/scholarships";
 import { fetchScholarshipSlugs } from "@/service/scholarships/fetchScholarships";
 import { ScholarshipDetailActions } from "@/components/user/scholarships/scholarshipDetailActions";
+import { ScholarshipViewTracker } from "@/components/user/scholarships/scholarshipViewTracker";
 
 interface ScholarshipDetailProps {
   params: Promise<{ slug: string }>;
@@ -71,6 +72,7 @@ export default async function ScholarshipDetailPage({ params }: ScholarshipDetai
 
   return (
     <main className="bg-[#f5f5f5] min-h-screen">
+      <ScholarshipViewTracker scholarshipId={scholarship.id} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <LandingHeader />
 
@@ -105,7 +107,11 @@ export default async function ScholarshipDetailPage({ params }: ScholarshipDetai
               ))}
             </div>
 
-            <ScholarshipDetailActions scholarshipId={scholarship.id} applyLink={scholarship.link} />
+            <ScholarshipDetailActions
+              scholarshipId={scholarship.id}
+              scholarshipName={scholarship.title}
+              applyLink={scholarship.link}
+            />
           </article>
 
           <aside>

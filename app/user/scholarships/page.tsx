@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { ScholarshipFiltersBar } from "@/components/user/scholarships/scholarshipFiltersBar";
+import { ScholarshipApplyConfirmGate } from "@/components/user/scholarships/scholarshipApplyConfirmGate";
 import { EngagedScholarshipCardList } from "@/components/user/scholarships/engagedScholarshipCardList";
 import { fetchActiveScholarships } from "@/service/scholarships/fetchScholarships";
 import { useScholarshipCardEngagement } from "@/hooks/useScholarshipCardEngagement";
@@ -36,7 +37,7 @@ function ScholarshipCardSkeleton() {
 
 export default function UserScholarshipsPage() {
   const { isAuthenticated } = useAuthContext();
-  const { actionError, clearActionError, engagementLoading, getCardEngagementProps } =
+  const { actionError, clearActionError, engagementLoading, getCardEngagementProps, confirmModal } =
     useScholarshipCardEngagement();
 
   const [scholarships, setScholarships] = useState<ScholarshipRecord[]>([]);
@@ -149,6 +150,8 @@ export default function UserScholarshipsPage() {
       {engagementLoading && isAuthenticated && (
         <p className="text-xs text-gray-400 text-center">Loading your saved and applied scholarships…</p>
       )}
+
+      <ScholarshipApplyConfirmGate confirmModal={confirmModal} />
     </div>
   );
 }

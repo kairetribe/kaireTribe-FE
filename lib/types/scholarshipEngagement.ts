@@ -2,6 +2,7 @@ import type { ScholarshipRecord } from "@/lib/types/scholarship";
 
 export interface ScholarshipEngagementIds {
   savedIds: string[];
+  viewedIds: string[];
   appliedIds: string[];
 }
 

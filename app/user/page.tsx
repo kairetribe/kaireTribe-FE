@@ -6,13 +6,14 @@ import bannerImage from "@/public/images/dashboard/banner-3d.png";
 import { useAuthContext } from "@/hooks/useAuthContext";
 import { useScholarshipCardEngagement } from "@/hooks/useScholarshipCardEngagement";
 import { fetchUserDashboard } from "@/service/user/fetchUserDashboard";
+import { ScholarshipApplyConfirmGate } from "@/components/user/scholarships/scholarshipApplyConfirmGate";
 import { DashboardScholarshipSection } from "@/components/user/dashboard/dashboardScholarshipSection";
 import { toScholarshipCardData } from "@/utils/user/dashboard";
 import type { ScholarshipCardData } from "@/components/user/scholarshipCard";
 
 export default function DashboardHome() {
   const { session } = useAuthContext();
-  const { actionError, clearActionError, engagementLoading, getCardEngagementProps } =
+  const { actionError, clearActionError, engagementLoading, getCardEngagementProps, confirmModal } =
     useScholarshipCardEngagement();
 
   const [firstName, setFirstName] = useState(session?.firstName ?? "Scholar");
@@ -126,6 +127,8 @@ export default function DashboardHome() {
       {engagementLoading && (
         <p className="text-xs text-gray-400 text-center">Loading your saved and applied scholarships…</p>
       )}
+
+      <ScholarshipApplyConfirmGate confirmModal={confirmModal} />
     </div>
   );
 }
