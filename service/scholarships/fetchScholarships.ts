@@ -3,7 +3,7 @@ import type { ScholarshipRecord } from "@/lib/types/scholarship";
 import { mapScholarshipRecord, type ScholarshipDbRecord } from "@/utils/scholarships";
 
 const PUBLIC_COLUMNS =
-  "id, slug, name, sponsor_name, opening_date, closing_date, scholarship_type, open_to, link, details, image_path, image_url, status, created_at";
+  "id, slug, name, sponsor_name, opening_date, closing_date, scholarship_type, open_to, link, details, image_path, image_url, status, is_verified, created_at";
 
 export async function fetchActiveScholarships(): Promise<{
   data: ScholarshipRecord[];
@@ -13,6 +13,7 @@ export async function fetchActiveScholarships(): Promise<{
     .from("scholarships")
     .select(PUBLIC_COLUMNS)
     .eq("status", "active")
+    .eq("is_verified", true)
     .order("created_at", { ascending: false });
 
   if (error) return { data: [], error: error.message };
@@ -24,7 +25,7 @@ export async function fetchActiveScholarships(): Promise<{
 }
 
 export async function fetchScholarshipSlugs(): Promise<string[]> {
-  const { data, error } = await supabase.from("scholarships").select("slug").eq("status", "active");
+  const { data, error } = await supabase.from("scholarships").select("slug").eq("status", "active").eq("is_verified", true);
 
   if (error || !data) return [];
   return data.map((row) => row.slug as string);

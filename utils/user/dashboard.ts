@@ -13,5 +13,6 @@ export function toScholarshipCardData(scholarship: ScholarshipRecord): Scholarsh
     scholarshipType: scholarship.scholarshipType,
     openTo: scholarship.openTo,
     sponsor: scholarship.sponsor,
+    isVerified: scholarship.isVerified,
   };
 }

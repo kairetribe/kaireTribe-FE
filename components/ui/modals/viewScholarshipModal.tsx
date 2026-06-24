@@ -6,6 +6,8 @@ import Link from "next/link";
 import { createPortal } from "react-dom";
 import { CircleX, ExternalLink } from "lucide-react";
 import type { ScholarshipRow } from "@/lib/types/scholarship";
+import { ScholarshipVerifyAction } from "@/components/admin/scholarships/scholarshipVerifyAction";
+import { ScholarshipVerificationBadge } from "@/components/user/scholarships/scholarshipVerificationBadge";
 import {
   formatPostedDate,
   formatScholarshipDate,
@@ -16,6 +18,7 @@ interface ViewScholarshipModalProps {
   isOpen: boolean;
   onClose: () => void;
   scholarship: ScholarshipRow | null;
+  onVerified?: (scholarshipId: string) => void;
 }
 
 function DetailField({ label, children }: { label: string; children: ReactNode }) {
@@ -27,7 +30,12 @@ function DetailField({ label, children }: { label: string; children: ReactNode }
   );
 }
 
-export const ViewScholarshipModal = ({ isOpen, onClose, scholarship }: ViewScholarshipModalProps) => {
+export const ViewScholarshipModal = ({
+  isOpen,
+  onClose,
+  scholarship,
+  onVerified,
+}: ViewScholarshipModalProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -108,6 +116,17 @@ export const ViewScholarshipModal = ({ isOpen, onClose, scholarship }: ViewSchol
               </span>
             </DetailField>
           </div>
+
+          <DetailField label="Verification">
+            <div className="flex flex-col gap-3">
+              <ScholarshipVerificationBadge isVerified={scholarship.isVerified} className="px-3 py-1 text-xs w-fit" />
+              <ScholarshipVerifyAction
+                scholarshipId={scholarship.id}
+                isVerified={scholarship.isVerified}
+                onUpdated={() => onVerified?.(scholarship.id)}
+              />
+            </div>
+          </DetailField>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <DetailField label="Scholarship type">{scholarship.scholarshipType}</DetailField>

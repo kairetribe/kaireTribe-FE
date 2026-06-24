@@ -3,7 +3,7 @@ import type { ScholarshipRow } from "@/lib/types/scholarship";
 import { mapScholarshipRow, type ScholarshipDbRecord } from "@/utils/scholarships";
 
 const SCHOLARSHIP_COLUMNS =
-  "id, slug, name, sponsor_name, opening_date, closing_date, scholarship_type, open_to, link, details, image_path, image_url, status, created_at";
+  "id, slug, name, sponsor_name, opening_date, closing_date, scholarship_type, open_to, link, details, image_path, image_url, status, is_verified, created_at";
 
 export interface FetchScholarshipsResult {
   data: ScholarshipRow[];

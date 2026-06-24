@@ -10,6 +10,7 @@ import { fetchActiveScholarships, getScholarshipBySlug } from "@/lib/data/schola
 import { fetchScholarshipSlugs } from "@/service/scholarships/fetchScholarships";
 import { ScholarshipDetailActions } from "@/components/user/scholarships/scholarshipDetailActions";
 import { ScholarshipViewTracker } from "@/components/user/scholarships/scholarshipViewTracker";
+import { ScholarshipVerificationBadge } from "@/components/user/scholarships/scholarshipVerificationBadge";
 
 interface ScholarshipDetailProps {
   params: Promise<{ slug: string }>;
@@ -58,7 +59,11 @@ export default async function ScholarshipDetailPage({ params }: ScholarshipDetai
 
   const { data: allScholarships } = await fetchActiveScholarships();
   const similarScholarships = allScholarships.filter((item) => item.slug !== scholarship.slug).slice(0, 4);
-  const scholarshipTags = [`Type: ${scholarship.scholarshipType}`, `Open to: ${scholarship.openTo}`, scholarship.sponsor];
+  const scholarshipTags = [
+    `Type: ${scholarship.scholarshipType}`,
+    `Open to: ${scholarship.openTo}`,
+    scholarship.sponsor,
+  ];
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -92,7 +97,8 @@ export default async function ScholarshipDetailPage({ params }: ScholarshipDetai
               </span>
             </div>
 
-            <div className="flex flex-wrap gap-2 mb-5">
+            <div className="flex flex-wrap items-center gap-2 mb-5">
+              {scholarship.isVerified && <ScholarshipVerificationBadge isVerified className="px-3 py-1 text-xs" />}
               {scholarshipTags.map((tag) => (
                 <span
                   key={tag}

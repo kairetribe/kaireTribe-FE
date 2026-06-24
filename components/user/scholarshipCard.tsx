@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Bookmark, Loader2 } from "lucide-react";
+import { ScholarshipVerificationBadge } from "@/components/user/scholarships/scholarshipVerificationBadge";
 
 export interface ScholarshipCardData {
   id: string;
@@ -14,6 +15,7 @@ export interface ScholarshipCardData {
   scholarshipType?: string;
   openTo?: string;
   sponsor?: string;
+  isVerified?: boolean;
 }
 
 interface ScholarshipCardProps {
@@ -64,6 +66,9 @@ export default function ScholarshipCard({
             <Link href={detailHref} className="aspect-[4/3] bg-gray-50 relative block">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={data.image} alt={data.title} className="w-full h-full object-cover" />
+              <div className="absolute top-3 left-3 z-10 flex flex-col gap-1.5">
+                {data.isVerified && <ScholarshipVerificationBadge isVerified />}
+              </div>
               {isApplied ? (
                 <div className="absolute top-3 right-3 bg-green-200/80 text-green-600 text-[10px] font-semibold px-2 z-10 py-[1.5px] rounded-lg">
                   Applied
@@ -74,6 +79,9 @@ export default function ScholarshipCard({
             <div className="aspect-[4/3] bg-gray-50 relative">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={data.image} alt={data.title} className="w-full h-full object-cover" />
+              <div className="absolute top-3 left-3 z-10 flex flex-col gap-1.5">
+                {data.isVerified && <ScholarshipVerificationBadge isVerified />}
+              </div>
               {isApplied ? (
                 <div className="absolute top-3 right-3 bg-green-200/80 text-green-600 text-[10px] font-semibold px-2 z-10 py-[1.5px] rounded-lg">
                   Applied

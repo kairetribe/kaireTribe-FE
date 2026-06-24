@@ -15,6 +15,7 @@ export interface ScholarshipDbRecord {
   image_path: string;
   image_url: string;
   status: "active" | "closed";
+  is_verified: boolean;
   created_at: string;
 }
 
@@ -70,6 +71,7 @@ export function mapScholarshipRow(record: ScholarshipDbRecord): ScholarshipRow {
     imagePath: record.image_path,
     imageUrl: record.image_url,
     status: record.status,
+    isVerified: record.is_verified,
     createdAt: record.created_at,
   };
 }
@@ -92,9 +94,14 @@ export function mapScholarshipRecord(record: ScholarshipDbRecord): ScholarshipRe
     link: record.link,
     scholarshipType: record.scholarship_type,
     openTo: record.open_to,
+    isVerified: record.is_verified,
   };
 }
 
 export function formatScholarshipStatus(status: ScholarshipRow["status"]): string {
   return status === "active" ? "Active" : "Closed";
+}
+
+export function formatVerificationStatus(isVerified: boolean): string {
+  return isVerified ? "Verified" : "Unverified";
 }

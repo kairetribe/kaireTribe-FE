@@ -7,6 +7,7 @@ import { fetchScholarships } from "@/service/admin/fetchScholarships";
 import type { ScholarshipRow } from "@/lib/types/scholarship";
 import { ViewScholarshipModal } from "@/components/ui/modals/viewScholarshipModal";
 import { formatScholarshipDate, formatScholarshipStatus } from "@/utils/scholarships";
+import { ScholarshipVerificationBadge } from "@/components/user/scholarships/scholarshipVerificationBadge";
 
 const PAGE_SIZE = 10;
 
@@ -16,7 +17,7 @@ interface ScholarshipListProps {
 
 function SkeletonRow() {
   return (
-    <div className="grid grid-cols-[80px_3fr_1.5fr_1.5fr_1fr_50px] px-6 py-4 border-t border-gray-50 items-center animate-pulse">
+    <div className="grid grid-cols-[80px_3fr_1.5fr_1.5fr_1fr_1fr_50px] px-6 py-4 border-t border-gray-50 items-center animate-pulse">
       <div className="h-3.5 w-6 bg-gray-100 rounded-full ml-2" />
       <div className="flex items-center gap-4">
         <div className="h-10 w-10 rounded bg-gray-100" />
@@ -77,12 +78,13 @@ export const ScholarshipList = ({ refreshKey = 0 }: ScholarshipListProps) => {
   return (
     <>
     <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden min-h-[600px] flex flex-col">
-      <div className="grid grid-cols-[80px_3fr_1.5fr_1.5fr_1fr_50px] px-8 py-6 border-b border-transparent">
+      <div className="grid grid-cols-[80px_3fr_1.5fr_1.5fr_1fr_1fr_50px] px-8 py-6 border-b border-transparent">
         <div className="text-xs font-medium text-gray-500">S/N</div>
         <div className="text-xs font-medium text-gray-500">Name</div>
         <div className="text-xs font-medium text-gray-500">Sponsor</div>
         <div className="text-xs font-medium text-gray-500">Closing Date</div>
         <div className="text-xs font-medium text-gray-500">Status</div>
+        <div className="text-xs font-medium text-gray-500">Verified</div>
         <div />
       </div>
 
@@ -115,7 +117,7 @@ export const ScholarshipList = ({ refreshKey = 0 }: ScholarshipListProps) => {
                   setSelectedScholarship(item);
                 }
               }}
-              className="grid grid-cols-[80px_3fr_1.5fr_1.5fr_1fr_50px] px-6 py-4 border-t border-gray-50 items-center hover:bg-gray-50/50 transition-colors cursor-pointer"
+              className="grid grid-cols-[80px_3fr_1.5fr_1.5fr_1fr_1fr_50px] px-6 py-4 border-t border-gray-50 items-center hover:bg-gray-50/50 transition-colors cursor-pointer"
             >
               <div className="text-sm font-medium text-gray-900 pl-2">{showingFrom + index}</div>
               <div className="flex items-center gap-4 min-w-0">
@@ -134,6 +136,9 @@ export const ScholarshipList = ({ refreshKey = 0 }: ScholarshipListProps) => {
                 >
                   {formatScholarshipStatus(item.status)}
                 </span>
+              </div>
+              <div>
+                <ScholarshipVerificationBadge isVerified={item.isVerified} />
               </div>
               <div className="flex justify-end pr-2">
                 <button
@@ -202,6 +207,14 @@ export const ScholarshipList = ({ refreshKey = 0 }: ScholarshipListProps) => {
       isOpen={!!selectedScholarship}
       onClose={() => setSelectedScholarship(null)}
       scholarship={selectedScholarship}
+      onVerified={(scholarshipId) => {
+        setScholarships((current) =>
+          current.map((item) => (item.id === scholarshipId ? { ...item, isVerified: true } : item))
+        );
+        setSelectedScholarship((current) =>
+          current?.id === scholarshipId ? { ...current, isVerified: true } : current
+        );
+      }}
     />
     </>
   );

@@ -24,6 +24,7 @@ export interface ScholarshipRow {
   imagePath: string;
   imageUrl: string;
   status: "active" | "closed";
+  isVerified: boolean;
   createdAt: string;
 }
 
@@ -47,4 +48,5 @@ export interface ScholarshipRecord {
   link: string;
   scholarshipType: string;
   openTo: string;
+  isVerified: boolean;
 }

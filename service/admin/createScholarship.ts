@@ -44,6 +44,13 @@ async function insertScholarship(
   return { id: data.id, slug: data.slug };
 }
 
+async function getUploaderRole(userId: string): Promise<"admin" | "verifier" | null> {
+  const { data, error } = await supabase.from("users").select("role").eq("id", userId).maybeSingle();
+  if (error || !data?.role) return null;
+  if (data.role === "admin" || data.role === "verifier") return data.role;
+  return null;
+}
+
 export async function createScholarship(
   input: CreateScholarshipInput
 ): Promise<CreateScholarshipResult> {
@@ -53,7 +60,12 @@ export async function createScholarship(
   const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
   const userId = sessionData.session?.user.id;
   if (sessionError || !userId) {
-    return { id: null, slug: null, error: "You must be signed in as an admin to upload scholarships." };
+    return { id: null, slug: null, error: "You must be signed in as staff to upload scholarships." };
+  }
+
+  const role = await getUploaderRole(userId);
+  if (!role) {
+    return { id: null, slug: null, error: "Only admins and verifiers can upload scholarships." };
   }
 
   const { imagePath, imageUrl, error: uploadError } = await uploadScholarshipImage(input.image, userId);
@@ -75,6 +87,7 @@ export async function createScholarship(
     image_path: imagePath,
     image_url: imageUrl,
     status,
+    is_verified: role === "admin",
     created_by: userId,
   };
 

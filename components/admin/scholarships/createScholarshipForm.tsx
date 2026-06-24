@@ -9,6 +9,7 @@ import {
 } from "@/lib/constants/scholarships";
 import { createScholarship } from "@/service/admin/createScholarship";
 import { validateScholarshipInput } from "@/utils/admin/scholarshipForm";
+import { useAuthContext } from "@/hooks/useAuthContext";
 
 const fieldClassName =
   "block w-full px-4 py-3 rounded-md border border-gray-200 text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:ring-indigo-500 text-sm outline-none shadow-sm";
@@ -18,6 +19,7 @@ interface CreateScholarshipFormProps {
 }
 
 export const CreateScholarshipForm = ({ onSuccess }: CreateScholarshipFormProps) => {
+  const { role } = useAuthContext();
   const [image, setImage] = useState<File | null>(null);
   const [name, setName] = useState("");
   const [sponsor, setSponsor] = useState("");
@@ -67,7 +69,11 @@ export const CreateScholarshipForm = ({ onSuccess }: CreateScholarshipFormProps)
       return;
     }
 
-    setInfoMessage("Scholarship uploaded successfully.");
+    setInfoMessage(
+      role === "admin"
+        ? "Scholarship uploaded and published as verified."
+        : "Scholarship uploaded. An admin must verify it before it appears publicly."
+    );
     onSuccess?.();
   };
 
