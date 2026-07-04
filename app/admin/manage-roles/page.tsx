@@ -12,7 +12,7 @@ import {
 
 export default function ManageRoles() {
   const router = useRouter();
-  const { role, isLoading: isAuthLoading } = useAuthContext();
+  const { role, isLoading: isAuthLoading, session } = useAuthContext();
   const [users, setUsers] = useState<StaffUserRow[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -58,7 +58,13 @@ export default function ManageRoles() {
     <div className="flex flex-col gap-8">
       <h1 className="text-2xl font-bold text-gray-900">Manage Roles</h1>
       <RoleActionBar onStaffCreated={loadStaffUsers} />
-      <RoleList users={users} isLoading={isLoading} error={error} />
+      <RoleList
+        users={users}
+        isLoading={isLoading}
+        error={error}
+        currentUserId={session?.id ?? ""}
+        onStaffUpdated={loadStaffUsers}
+      />
     </div>
   );
-}
+} 

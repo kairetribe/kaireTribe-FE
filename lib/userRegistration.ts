@@ -51,5 +51,6 @@ export function buildUserProfileRow(params: {
     interest: null,
     scholarship_type: null,
     countries: [] as string[],
+    is_active: true,
   };
 }

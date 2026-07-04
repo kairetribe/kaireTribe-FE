@@ -225,7 +225,6 @@ export const ProfileCreationModal = ({
     document.body
   );
 };
-
 const inputClass =
   "block w-full px-4 py-3 rounded-md border border-gray-200 text-gray-900 placeholder-gray-500 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm outline-none shadow-sm";
 
@@ -248,3 +247,4 @@ function Field({
     </div>
   );
 }
+

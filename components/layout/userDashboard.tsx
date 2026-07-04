@@ -3,15 +3,16 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, User, GraduationCap, Menu } from "lucide-react";
+import { Home, User, GraduationCap, Menu, Newspaper } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Logo from "@/components/ui/logo";
 import { UserProfileFooter } from "@/components/layout/layoutFooter";
 
 const navigation = [
-  { name: "Dashboard", href: "/user", icon: Home },
-  { name: "Scholarships", href: "/user/scholarships", icon: GraduationCap },
-  { name: "Profile", href: "/user/profile", icon: User },
+  { name: "Dashboard", href: "/user", icon: Home, exact: true },
+  { name: "Scholarships", href: "/user/scholarships", icon: GraduationCap, exact: false },
+  { name: "Events & News", href: "/user/updates", icon: Newspaper, exact: false },
+  { name: "Profile", href: "/user/profile", icon: User, exact: false },
 ] as const;
 
 interface DashboardLayoutProps {
@@ -29,7 +30,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     item: (typeof navigation)[number];
     isMobile?: boolean;
   }) => {
-    const isActive = pathname === item.href;
+    const isActive = item.exact ? pathname === item.href : pathname.startsWith(item.href);
 
     return (
       <Link

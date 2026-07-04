@@ -1,12 +1,14 @@
 import supabase from "@/lib/supabase";
 import {
   EVERYONE_AUDIENCE_OPTION,
+  type AnnouncementKind,
   type AudienceFilters,
 } from "@/lib/types/announcement";
 
 export interface CreateAnnouncementInput {
   subject: string;
   body: string;
+  kind: AnnouncementKind;
   audience: AudienceFilters;
 }
 
@@ -44,6 +46,7 @@ export async function createAnnouncement(
     .insert({
       subject,
       body,
+      kind: input.kind,
       audience: input.audience,
       send_to_everyone: sendToEveryone,
       created_by: userId,

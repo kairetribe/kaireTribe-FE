@@ -1,11 +1,12 @@
 import supabase from "@/lib/supabase";
-import type { AnnouncementRow } from "@/lib/types/announcement";
+import type { AnnouncementKind, AnnouncementRow } from "@/lib/types/announcement";
 import { parseAudience } from "@/utils/admin/announcements";
 
 interface AnnouncementRecord {
   id: string;
   subject: string;
   body: string;
+  kind: AnnouncementKind;
   audience: unknown;
   send_to_everyone: boolean;
   created_at: string;
@@ -22,6 +23,7 @@ function mapAnnouncement(record: AnnouncementRecord): AnnouncementRow {
     id: record.id,
     subject: record.subject,
     body: record.body,
+    kind: record.kind ?? "newsletter",
     audience: parseAudience(record.audience),
     sendToEveryone: record.send_to_everyone,
     createdAt: record.created_at,
@@ -38,7 +40,7 @@ export async function fetchAnnouncements(
 
   const { data, error, count } = await supabase
     .from("announcements")
-    .select("id, subject, body, audience, send_to_everyone, created_at", { count: "exact" })
+    .select("id, subject, body, kind, audience, send_to_everyone, created_at", { count: "exact" })
     .order("created_at", { ascending: false })
     .range(from, to);
 

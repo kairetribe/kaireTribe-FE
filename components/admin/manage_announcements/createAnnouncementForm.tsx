@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { AudienceMultiSelect } from "@/components/admin/manage_announcements/audienceMultiSelect";
 import { createAnnouncement } from "@/service/admin/createAnnouncement";
-import type { AudienceFilters } from "@/lib/types/announcement";
+import type { AnnouncementKind, AudienceFilters } from "@/lib/types/announcement";
 
 const EMPTY_AUDIENCE: AudienceFilters = {
   educationLevel: [],
@@ -20,6 +20,7 @@ interface CreateAnnouncementFormProps {
 export const CreateAnnouncementForm = ({ onSuccess }: CreateAnnouncementFormProps) => {
   const [subject, setSubject] = useState("New Announcement");
   const [body, setBody] = useState("");
+  const [kind, setKind] = useState<AnnouncementKind>("newsletter");
   const [audience, setAudience] = useState<AudienceFilters>(EMPTY_AUDIENCE);
   const [error, setError] = useState<string | null>(null);
   const [infoMessage, setInfoMessage] = useState<string | null>(null);
@@ -30,7 +31,7 @@ export const CreateAnnouncementForm = ({ onSuccess }: CreateAnnouncementFormProp
     setInfoMessage(null);
     setIsSubmitting(true);
 
-    const { id, error: submitError } = await createAnnouncement({ subject, body, audience });
+    const { id, error: submitError } = await createAnnouncement({ subject, body, kind, audience });
     setIsSubmitting(false);
 
     if (submitError || !id) {
@@ -56,7 +57,21 @@ export const CreateAnnouncementForm = ({ onSuccess }: CreateAnnouncementFormProp
           </div>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="space-y-2">
+            <label className="text-sm text-gray-500 font-normal">
+              Type<span className="text-red-500">*</span>
+            </label>
+            <select
+              value={kind}
+              onChange={(event) => setKind(event.target.value as AnnouncementKind)}
+              aria-label="Announcement type"
+              className="block w-full px-4 py-3 rounded-md border border-gray-200 text-gray-900 focus:border-indigo-500 focus:ring-indigo-500 text-sm outline-none shadow-sm bg-white"
+            >
+              <option value="newsletter">Newsletter</option>
+              <option value="event">Event</option>
+            </select>
+          </div>
           <div className="space-y-2">
             <label className="text-sm text-gray-500 font-normal">
               Announcement subject<span className="text-red-500">*</span>
