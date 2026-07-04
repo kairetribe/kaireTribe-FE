@@ -7,10 +7,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
 const NAV_LINKS = [
-  { label: "Home",     href: "/"      },
-  { label: "Scholarships", href: "/scholarships"},
+  { label: "Home", href: "/" },
+  { label: "Scholarships", href: "/scholarships" },
+  { label: "Our Services", href: "/services" },
   { label: "About us", href: "/about" },
-  { label: "FAQ",      href: "/faq"   },
+  { label: "FAQ", href: "/faq" },
 ] as const;
 
 interface LandingHeaderProps {

@@ -5,6 +5,7 @@ import ScholarshipCard from "@/components/user/scholarshipCard";
 import Image from "next/image";
 import Link from "next/link";
 import { fetchActiveScholarships } from "@/lib/data/scholarships";
+import { toScholarshipCardData } from "@/utils/user/dashboard";
 
 export const revalidate = 60;
 
@@ -39,17 +40,7 @@ export default async function ScholarshipsPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
           {scholarships.map((scholarship) => (
             <Link key={scholarship.id} href={`/scholarships/${scholarship.slug}`} className="block">
-              <ScholarshipCard
-                data={{
-                  id: scholarship.id,
-                  title: scholarship.title,
-                  description: scholarship.summary,
-                  closes: scholarship.closesLabel,
-                  image: scholarship.heroImage,
-                  link: scholarship.link,
-                  slug: scholarship.slug,
-                }}
-              />
+              <ScholarshipCard data={toScholarshipCardData(scholarship)} />
             </Link>
           ))}
         </div>

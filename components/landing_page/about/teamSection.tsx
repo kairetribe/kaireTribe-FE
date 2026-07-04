@@ -5,7 +5,7 @@ const TEAM_MEMBERS = [
     {name:"Aku-Ibe Chizuroke Akuwudike", role: "Head of Programs and Community",image:"/images/Aku-Ibe_Chizuroke_Akuwudike.jpeg"},
     {name:"Oputa Olivia",role:"Head of Technical Operations",image:"/images/Oputa_Olivia.JPG"},
     {name:"Ezike Chigozie Innocent",role:"Head of publicity",image:"/images/Ezike_Chigozie_Innocent.jpeg"},
-    {name:"Ofoegbu Chidinma", role: "Head of conten",image :"/images/Ofoegbu_Chidinma.jpg"},
+    {name:"Ofoegbu Chidinma", role: "Head of content",image :"/images/Ofoegbu_Chidinma.jpg"},
 ];
 
 export const TeamSection = () => {

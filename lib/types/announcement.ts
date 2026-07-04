@@ -1,3 +1,5 @@
+export type AnnouncementKind = "event" | "newsletter";
+
 export type AudienceCategory =
   | "educationLevel"
   | "fieldOfStudy"
@@ -13,6 +15,7 @@ export interface AnnouncementRow {
   id: string;
   subject: string;
   body: string;
+  kind: AnnouncementKind;
   audience: AudienceFilters;
   sendToEveryone: boolean;
   createdAt: string;

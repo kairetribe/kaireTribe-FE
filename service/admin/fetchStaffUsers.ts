@@ -6,6 +6,7 @@ export interface StaffUserRow {
   last_name: string;
   email: string;
   role: string;
+  is_active: boolean;
 }
 
 export async function fetchStaffUsers(): Promise<{
@@ -14,7 +15,7 @@ export async function fetchStaffUsers(): Promise<{
 }> {
   const { data, error } = await supabase
     .from("users")
-    .select("id, first_name, last_name, email, role")
+    .select("id, first_name, last_name, email, role, is_active")
     .neq("role", "user")
     .order("first_name", { ascending: true });
 

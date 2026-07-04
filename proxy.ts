@@ -4,7 +4,7 @@ import type { LocalSession } from "@/lib/types/auth";
 
 const SESSION_COOKIE = "kt_session";
 
-const PUBLIC_ONLY_ROUTES = ["/", "/about", "/faq", "/sign-in", "/sign-up"];
+const PUBLIC_ONLY_ROUTES = ["/", "/about", "/services", "/faq", "/sign-in", "/sign-up"];
 
 const AUTH_REQUIRED_ROUTES = ["/complete-profile", "/user", "/admin"];
 

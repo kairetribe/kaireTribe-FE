@@ -8,11 +8,12 @@ interface EngagedScholarshipCardListProps {
   getCardEngagementProps: (scholarship: ScholarshipCardData) => {
     showEngagement: boolean;
     isSaved: boolean;
+    isViewed: boolean;
     isApplied: boolean;
     isSaving: boolean;
     isApplying: boolean;
     onToggleSave?: () => void;
-    onApply?: () => void;
+    onView?: () => void;
   };
   gridClassName?: string;
 }

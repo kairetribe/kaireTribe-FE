@@ -98,11 +98,19 @@ export async function signInWithEmail(
 
   const { data, error } = await supabase
     .from("users")
-    .select("id, role, email, first_name, last_name")
+    .select("id, role, email, first_name, last_name, is_active")
     .eq("id", authData.user.id)
     .single();
 
   if (data) {
+    if (data.role !== "user" && data.is_active === false) {
+      await supabase.auth.signOut();
+      return {
+        session: null,
+        error: "Your account has been deactivated. Contact an administrator.",
+      };
+    }
+
     return {
       session: {
         id: data.id,

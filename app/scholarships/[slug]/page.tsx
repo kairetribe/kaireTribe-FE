@@ -9,6 +9,8 @@ import Footer from "@/components/landing_page/footer";
 import { fetchActiveScholarships, getScholarshipBySlug } from "@/lib/data/scholarships";
 import { fetchScholarshipSlugs } from "@/service/scholarships/fetchScholarships";
 import { ScholarshipDetailActions } from "@/components/user/scholarships/scholarshipDetailActions";
+import { ScholarshipViewTracker } from "@/components/user/scholarships/scholarshipViewTracker";
+import { ScholarshipVerificationBadge } from "@/components/user/scholarships/scholarshipVerificationBadge";
 
 interface ScholarshipDetailProps {
   params: Promise<{ slug: string }>;
@@ -57,6 +59,11 @@ export default async function ScholarshipDetailPage({ params }: ScholarshipDetai
 
   const { data: allScholarships } = await fetchActiveScholarships();
   const similarScholarships = allScholarships.filter((item) => item.slug !== scholarship.slug).slice(0, 4);
+  const scholarshipTags = [
+    `Type: ${scholarship.scholarshipType}`,
+    `Open to: ${scholarship.openTo}`,
+    scholarship.sponsor,
+  ];
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -71,6 +78,7 @@ export default async function ScholarshipDetailPage({ params }: ScholarshipDetai
 
   return (
     <main className="bg-[#f5f5f5] min-h-screen">
+      <ScholarshipViewTracker scholarshipId={scholarship.id} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <LandingHeader />
 
@@ -89,6 +97,18 @@ export default async function ScholarshipDetailPage({ params }: ScholarshipDetai
               </span>
             </div>
 
+            <div className="flex flex-wrap items-center gap-2 mb-5">
+              {scholarship.isVerified && <ScholarshipVerificationBadge isVerified className="px-3 py-1 text-xs" />}
+              {scholarshipTags.map((tag) => (
+                <span
+                  key={tag}
+                  className="inline-flex items-center rounded-full bg-indigo-50 px-3 py-1 text-xs font-medium text-indigo-700"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+
             <p className="text-sm font-medium text-gray-800 mb-4">{scholarship.sponsor}</p>
             <Image
               src={scholarship.heroImage}
@@ -105,7 +125,11 @@ export default async function ScholarshipDetailPage({ params }: ScholarshipDetai
               ))}
             </div>
 
-            <ScholarshipDetailActions scholarshipId={scholarship.id} applyLink={scholarship.link} />
+            <ScholarshipDetailActions
+              scholarshipId={scholarship.id}
+              scholarshipName={scholarship.title}
+              applyLink={scholarship.link}
+            />
           </article>
 
           <aside>

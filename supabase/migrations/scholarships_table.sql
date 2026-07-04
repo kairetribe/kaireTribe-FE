@@ -45,6 +45,38 @@ to authenticated
 using (public.is_admin())
 with check (public.is_admin());
 
+create table if not exists public.viewed_scholarships (
+  user_id uuid not null references auth.users(id) on delete cascade,
+  scholarship_id uuid not null references public.scholarships(id) on delete cascade,
+  viewed_at timestamptz not null default now(),
+  primary key (user_id, scholarship_id)
+);
+
+create index if not exists viewed_scholarships_user_idx on public.viewed_scholarships (user_id, viewed_at desc);
+
+alter table public.viewed_scholarships enable row level security;
+
+drop policy if exists "Users read own viewed scholarships" on public.viewed_scholarships;
+create policy "Users read own viewed scholarships"
+on public.viewed_scholarships for select to authenticated
+using (auth.uid() = user_id);
+
+drop policy if exists "Users record viewed scholarships" on public.viewed_scholarships;
+create policy "Users record viewed scholarships"
+on public.viewed_scholarships for insert to authenticated
+with check (auth.uid() = user_id);
+
+drop policy if exists "Users update own viewed scholarships" on public.viewed_scholarships;
+create policy "Users update own viewed scholarships"
+on public.viewed_scholarships for update to authenticated
+using (auth.uid() = user_id)
+with check (auth.uid() = user_id);
+
+drop policy if exists "Admins read all viewed scholarships" on public.viewed_scholarships;
+create policy "Admins read all viewed scholarships"
+on public.viewed_scholarships for select to authenticated
+using (public.is_admin());
+
 -- Storage bucket (public read for scholarship images on the site)
 insert into storage.buckets (id, name, public)
 values ('kaire-tribe', 'kaire-tribe', true)

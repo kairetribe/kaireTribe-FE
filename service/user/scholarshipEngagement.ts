@@ -31,23 +31,32 @@ function mapJoinedRow(
 
 export async function fetchEngagementIds(): Promise<ScholarshipEngagementIds & { error: string | null }> {
   const userId = await getAuthenticatedUserId();
-  if (!userId) return { savedIds: [], appliedIds: [], error: "Sign in to save or apply for scholarships." };
+  if (!userId) {
+    return { savedIds: [], viewedIds: [], appliedIds: [], error: "Sign in to save or apply for scholarships." };
+  }
 
-  const [savedResult, appliedResult] = await Promise.all([
+  const [savedResult, viewedResult, appliedResult] = await Promise.all([
     supabase.from("saved_scholarships").select("scholarship_id").eq("user_id", userId),
+    supabase.from("viewed_scholarships").select("scholarship_id").eq("user_id", userId),
     supabase.from("applied_scholarships").select("scholarship_id").eq("user_id", userId),
   ]);
 
-  if (savedResult.error || appliedResult.error) {
+  if (savedResult.error || viewedResult.error || appliedResult.error) {
     return {
       savedIds: [],
+      viewedIds: [],
       appliedIds: [],
-      error: savedResult.error?.message ?? appliedResult.error?.message ?? "Failed to load scholarship activity.",
+      error:
+        savedResult.error?.message ??
+        viewedResult.error?.message ??
+        appliedResult.error?.message ??
+        "Failed to load scholarship activity.",
     };
   }
 
   return {
     savedIds: (savedResult.data ?? []).map((row) => row.scholarship_id as string),
+    viewedIds: (viewedResult.data ?? []).map((row) => row.scholarship_id as string),
     appliedIds: (appliedResult.data ?? []).map((row) => row.scholarship_id as string),
     error: null,
   };
@@ -72,6 +81,19 @@ export async function unsaveScholarship(scholarshipId: string): Promise<{ error:
     .delete()
     .eq("user_id", userId)
     .eq("scholarship_id", scholarshipId);
+
+  if (error) return { error: error.message };
+  return { error: null };
+}
+
+export async function recordScholarshipView(scholarshipId: string): Promise<{ error: string | null }> {
+  const userId = await getAuthenticatedUserId();
+  if (!userId) return { error: null };
+
+  const { error } = await supabase.from("viewed_scholarships").upsert(
+    { user_id: userId, scholarship_id: scholarshipId, viewed_at: new Date().toISOString() },
+    { onConflict: "user_id,scholarship_id" }
+  );
 
   if (error) return { error: error.message };
   return { error: null };
